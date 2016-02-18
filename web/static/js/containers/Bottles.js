@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Gql from 'react-gql';
 import { actions } from '../store';
-import { BottlesList } from '../components';
+import { BottleRow, TableHead } from '../components';
+import { bottleFields } from '../fields';
 
 const config = {
   getState: state => ({
@@ -11,22 +12,23 @@ const config = {
     query: `
       query bottlesQuery {
         bottles {
-          id
-          wine {
-            id
-            name
-          }
+          ${BottleRow.getFragment()}
         }
       }
     `,
-    action: [actions.cellar.loadWines],
+    action: [actions.cellar.getBottles],
   }
 };
 
 class Bottles extends Component {
   render() {
     return (
-      <BottlesList wines={this.props.bottles} />
+      <table className="table table-striped">
+        <TableHead fields={bottleFields} key="thead" />
+        <tbody key="tbody">
+          {this.props.bottles.map(bottle => <BottleRow bottle={bottle} key={bottle.id} />)}
+        </tbody>
+      </table>
     );
   }
 }

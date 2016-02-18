@@ -1,5 +1,5 @@
 export default {
-  loadBottles: function *() {
+  getBottles: function *() {
     yield type => {
       return ({bottles}) => ({type, bottles});
     };

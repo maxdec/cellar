@@ -10,7 +10,7 @@ export const wineFields = [
 
 export const bottleFields = [
   'id',
-  'wine',
+  // 'wine',
   'row',
   'col',
   'acquisition',

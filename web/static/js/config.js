@@ -23,6 +23,7 @@ function fetchAndDispatch({query, variables = null, action}) {
   }).then(res => {
     return res.json().then(data => {
       resolveMayBeArray(action, function (action) {
+        console.log(action);
         store.dispatch(action(data.data));
       });
     });

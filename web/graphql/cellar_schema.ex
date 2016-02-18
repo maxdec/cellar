@@ -5,6 +5,8 @@ defmodule Cellar.CellarSchema do
   alias Cellar.Wine
   alias Cellar.Bottle
   alias Cellar.Timestamp
+  alias Cellar.Types.Date
+  alias Cellar.Types.Timestamp
 
   alias GraphQL.Schema
   alias GraphQL.Type.ObjectType
@@ -43,8 +45,8 @@ defmodule Cellar.CellarSchema do
         wine:         %{type: %NonNull{ofType: wine}},
         row:          %{type: %NonNull{ofType: %Int{}}},
         col:          %{type: %NonNull{ofType: %Int{}}},
-        acquisition:  %{type: %NonNull{ofType: %Int{}}},
-        degustation:  %{type: %Int{}},
+        acquisition:  %{type: %NonNull{ofType: %Date{}}},
+        degustation:  %{type: %Date{}},
         notes:        %{type: %String{}},
         inserted_at:  %{type: %NonNull{ofType: %Timestamp{}}},
         updated_at:   %{type: %NonNull{ofType: %Timestamp{}}},
