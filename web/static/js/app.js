@@ -7,45 +7,27 @@
 //   console.log("Success!")
 // })
 
+import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Relay from 'react-relay';
-// import { Router, Route, IndexRoute, browserHistory } from 'react-router';
-import { App, Bottles, Wines } from './containers';
-import { WinesRoute, BottlesRoute } from './queries';
-
-// function createRelayContainer(Component, props) {
-//   if (Relay.isContainer(Component)) {
-//     // Construct the RelayQueryConfig from the route and the router props.
-//     var {name, queries} = props.route;
-//     var {params} = props;
-//     return (
-//       <Relay.RootContainer
-//         Component={Component}
-//         renderFetched={(data) => <Component {...props} {...data} />}
-//         route={{name, params, queries}}
-//       />
-//     );
-//   } else {
-//     return <Component {...props}/>;
-//   }
-// }
-
-// ReactDOM.render(
-//   <Router history={browserHistory} createElement={createRelayContainer}>
-//     <Route name="home" path="/" component={App}>
-//       <IndexRoute name="wines" path="wines" component={Wines} queries={WinesRoute} />
-//       <Route name="bottles" path="bottles" component={Bottles} queries={BottlesRoute} />
-//     </Route>
-//     <App />
-//   </Router>,
-//   document.getElementById('app')
-// );
+import {
+  Router,
+  Route,
+  IndexRedirect,
+  browserHistory
+} from 'react-router';
+import { App, Bottles, Wines, Wine } from './containers';
+import './config';
 
 ReactDOM.render(
-  <Relay.RootContainer
-    Component={App}
-    route={new WinesRoute()}
-  />,
+  <Router history={browserHistory}>
+    <Route path="/" component={App}>
+      <IndexRedirect to="/wines" />
+      <Route path="wines" component={Wines} />
+      <Route path="wines/:id" component={Wine} />
+      <Route path="bottles" component={Bottles}/>
+      {/*<Route path="bottles/:id" component={Bottle}/>*/}
+    </Route>
+  </Router>,
   document.getElementById('app')
 );

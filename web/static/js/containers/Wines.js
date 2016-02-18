@@ -1,51 +1,36 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Route, IndexRoute } from 'react-router';
-import { addWine } from '../actions';
-import { WineForm, WinesList } from '../components';
+import Gql from 'react-gql';
+import { actions } from '../store';
+import { TableHead, WineRow } from '../components';
+import { wineFields } from '../fields';
+
+const config = {
+  getState: state => ({
+    wines: state.cellar.wines
+  }),
+  init: {
+    query: `
+      query winesQuery {
+        wines {
+          ${WineRow.getFragment()}
+        }
+      }
+    `,
+    action: [actions.cellar.getWines],
+  }
+};
 
 class Wines extends Component {
   render() {
-    // Injected by connect() call:
-    const { wines } = this.props;
     return (
-      <div>
-        <IndexRoute component={WinesList} wines={wines} />
-        <Route path="new" component={WineForm} />
-        <Route path="edit/:id" component={WineForm} />
-      </div>
-
-        // <AddTodo
-        //   onAddClick={text =>
-        //     dispatch(addTodo(text))
-        //   } />
-        // <TodoList
-        //   todos={visibleTodos}
-        //   onTodoClick={index =>
-        //     dispatch(completeTodo(index))
-        //   } />
-        // <Footer
-        //   filter={visibilityFilter}
-        //   onFilterChange={nextFilter =>
-        //     dispatch(setVisibilityFilter(nextFilter))
-        //   } />
-      // </div>
+      <table className="table table-striped">
+        <TableHead fields={wineFields} key="thead" />
+        <tbody key="tbody">
+          {this.props.wines.map(wine => <WineRow wine={wine} key={wine.id} />)}
+        </tbody>
+      </table>
     );
   }
 }
 
-// Select and return the props from global state that are required by this component
-function mapStateToProps(state) {
-  return {
-    wines: state.wines,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    addWine: (wine) => dispatch(addWine(wine)),
-  };
-}
-
-// Wrap the component to inject dispatch and state into it
-export default connect(mapStateToProps, mapDispatchToProps)(Wines);
+export default Gql.Root(config)(Wines);

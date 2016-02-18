@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
-import Immutable from 'immutable';
 
 const BottleForm = ({ bottle }) => (
   <form>
@@ -42,8 +41,8 @@ const BottleForm = ({ bottle }) => (
 );
 
 BottleForm.propTypes = {
-  bottle: PropTypes.instanceOf(Immutable.Map),
-  wines: PropTypes.instanceOf(Immutable.List)
+  bottle: PropTypes.object,
+  wines: PropTypes.array,
 };
 
 export default BottleForm;

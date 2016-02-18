@@ -1,8 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
-import Immutable from 'immutable';
 
-const WineForm = ({ wine }) => (
+const WineForm = ({ wine, edition = false }) => (
   <form>
     <div class="form-group">
       <label className="control-label">Wine</label>
@@ -42,7 +41,8 @@ const WineForm = ({ wine }) => (
 );
 
 WineForm.propTypes = {
-  wine: PropTypes.instanceOf(Immutable.Map)
+  wine: PropTypes.object,
+  edition: PropTypes.boolean,
 };
 
 export default WineForm;

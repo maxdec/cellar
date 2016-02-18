@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import Immutable from 'immutable';
 
 const BottlesList = ({ bottles }) => (
   <table className="table table-striped">
@@ -15,7 +14,7 @@ const BottlesList = ({ bottles }) => (
 );
 
 BottlesList.propTypes = {
-  bottles: PropTypes.instanceOf(Immutable.List).isRequired
+  bottles: PropTypes.array.isRequired
 };
 
 export default BottlesList;
