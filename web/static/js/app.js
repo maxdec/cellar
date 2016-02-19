@@ -13,16 +13,16 @@ import ReactDOM from 'react-dom';
 import {
   Router,
   Route,
-  IndexRedirect,
+  IndexRoute,
   browserHistory
 } from 'react-router';
-import { App, Bottles, Wines, Wine } from './containers';
+import { App, Bottles, Cellar, Wines, Wine } from './containers';
 import './config';
 
 ReactDOM.render(
   <Router history={browserHistory}>
     <Route path="/" component={App}>
-      <IndexRedirect to="/wines" />
+      <IndexRoute component={Cellar} />
       <Route path="wines" component={Wines} />
       <Route path="wines/:id" component={Wine} />
       <Route path="bottles" component={Bottles}/>

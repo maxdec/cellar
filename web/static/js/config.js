@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import Gql from 'react-gql';
-import { store } from './store';
+import { actions, store } from './store';
 
 Gql.set({
   store,
@@ -23,7 +23,7 @@ function fetchAndDispatch({query, variables = null, action}) {
   }).then(res => {
     return res.json().then(data => {
       resolveMayBeArray(action, function (action) {
-        console.log(action);
+        action = resolveMayBeFn(action, actions);
         store.dispatch(action(data.data));
       });
     });
@@ -32,8 +32,8 @@ function fetchAndDispatch({query, variables = null, action}) {
 
 // execute function and then return result
 // or return origin value
-function resolveMayBeFn(fn) {
-  return typeof fn === 'function' ? fn() : fn;
+function resolveMayBeFn(fn, ...args) {
+  return typeof fn === 'function' ? fn(...args) : fn;
 }
 
 function resolveMayBeArray(array, fn) {

@@ -1,25 +1,33 @@
 import React, { Component } from 'react';
 import Gql from 'react-gql';
-import { actions } from '../store';
 import { WineFull } from '../components';
 
 const config = {
   getState: state => ({
-    wine: state.cellar.wines[state.cellar.selectedWine]
+    wine: state.cellar.wines[state.cellar.selectedWineIndex]
   }),
-  init: {
-    query: `
-      query wineQuery {
-        wine($id: ID) {
-          ${WineFull.getFragment()}
+  mutations: {
+    loadWine: {
+      query: `
+        query wineQuery($id: ID!) {
+          wine(id: $id) {
+            ${WineFull.getFragment()}
+          }
         }
-      }
-    `,
-    action: [actions.cellar.selectWine],
+      `,
+      variables: {
+        id: 1
+      },
+      action: actions => actions.cellar.selectWine,
+    }
   }
 };
 
 class Wine extends Component {
+  componentDidMount() {
+    this.props.mutations.loadWine({ id: this.props.params.id });
+  }
+
   render() {
     return (
       <WineFull wine={this.props.wine} />

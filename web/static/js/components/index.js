@@ -1,3 +1,4 @@
+export BottleBox from './BottleBox';
 export BottleForm from './BottleForm';
 export BottleRow from './BottleRow';
 export Footer from './Footer';

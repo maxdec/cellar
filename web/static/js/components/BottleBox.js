@@ -11,7 +11,7 @@ const fragmentConfig = {
   `
 };
 
-class BottleRow extends React.Component {
+class BottleBox extends React.Component {
   static propTypes = {
     bottle: PropTypes.object.isRequired
   };
@@ -26,12 +26,12 @@ class BottleRow extends React.Component {
   render() {
     const { bottle } = this.props;
     return (
-      <tr onClick={::this.goToBottle(bottle.id)} className="clickable">
-        {bottleFields.map(field => <td key={field}>{bottle[field]}</td>)}
-      </tr>
+      <a href className="thumbnail" onClick={::this.goToBottle(bottle.id)} style={{height: '80px'}}>
+        {bottle.id}
+      </a>
     );
   }
 
 }
 
-export default Gql.Fragment(fragmentConfig)(BottleRow);
+export default Gql.Fragment(fragmentConfig)(BottleBox);

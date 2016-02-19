@@ -14,7 +14,9 @@ export default {
       return ({wine}) => ({type, wine});
     };
     yield (state, {wine}) => {
-      const wineIndex = state.wines.findIndex(w => w.id === wine.id) || state.wines.length;
+      let wineIndex = state.wines.findIndex(w => w.id === wine.id);
+      if (wineIndex === -1) wineIndex = state.wines.length;
+
       return Object.assign({}, state, {
         wines: [
           ...state.wines.slice(0, wineIndex),

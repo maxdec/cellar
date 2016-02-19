@@ -1,4 +1,5 @@
 export App from './App';
+export Cellar from './Cellar';
 export Bottles from './Bottles';
-export Wines from './Wines';
 export Wine from './Wine';
+export Wines from './Wines';

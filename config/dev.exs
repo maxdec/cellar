@@ -12,14 +12,16 @@ config :cellar, Cellar.Endpoint,
   code_reloader: true,
   cache_static_lookup: false,
   check_origin: false,
-  watchers: [node: ["node_modules/webpack/bin/webpack.js",
-                    "--watch-stdin", "--progress", "--colors"]]
+  watchers: [{Path.expand("webpack.dev.js"), []}]
+  # watchers: [node: ["node_modules/webpack/bin/webpack.js",
+  #                   "--watch-stdin", "--progress", "--colors"]]
 
 # Watch static and templates for browser reloading.
 config :cellar, Cellar.Endpoint,
   live_reload: [
     patterns: [
-      ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
+      # ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
+      ~r{priv/gettext/.*(po)$},
       ~r{web/views/.*(ex)$},
       ~r{web/templates/.*(eex)$}
     ]

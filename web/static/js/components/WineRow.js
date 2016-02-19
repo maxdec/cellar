@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import Gql from 'react-gql';
+import { browserHistory } from 'react-router';
 import { wineFields } from '../fields';
 
 const fragmentConfig = {
@@ -15,10 +16,17 @@ class WineRow extends React.Component {
     wine: PropTypes.object.isRequired
   };
 
+  goToWine(wineId) {
+    return (event) => {
+      event.preventDefault();
+      browserHistory.push(`/wines/${wineId}`);
+    };
+  }
+
   render() {
     const { wine } = this.props;
     return (
-      <tr>
+      <tr onClick={::this.goToWine(wine.id)} className="clickable">
         {wineFields.map(field => <td key={field}>{wine[field]}</td>)}
       </tr>
     );
