@@ -1,17 +1,19 @@
 var webpack = require('webpack');
 var path = require('path');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 var publicPath = 'http://localhost:4001/';
+var srcDir = './web/static';
+var jsDir = srcDir + '/js';
+var cssDir = srcDir + '/css';
+
 var env = process.env.MIX_ENV || 'dev';
 var prod = env === 'prod';
 var dev = env === 'dev';
 var hot = 'webpack-hot-middleware/client?path=' + publicPath + '__webpack_hmr';
-var entry = ['./web/static/css/app.scss', './web/static/js/app.js'];
+var entry = [path.resolve(__dirname, jsDir, 'app.js')];
 
 var plugins = [
-  new ExtractTextPlugin('css/app.css'),
   new CopyWebpackPlugin([
     { from: './web/static/assets' },
     { from: './deps/phoenix_html/web/static/js/phoenix_html.js',
@@ -31,12 +33,12 @@ if (dev) {
 }
 
 module.exports = {
-  devtool: prod ? null : 'source-map',
+  devtool: prod ? null : '#cheap-module-eval-source-map',
   entry: entry,
 
   output: {
-    path: path.resolve(__dirname) + '/priv/static/js',
-    filename: 'app.js',
+    path: path.resolve(__dirname, 'priv/static'),
+    filename: 'js/app.js',
     publicPath: publicPath
   },
 
@@ -51,20 +53,15 @@ module.exports = {
     loaders: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        include: path.resolve(jsDir),
         loader: 'babel-loader',
         query: {
           presets: ['es2015', 'stage-0', 'react']
         }
       }, {
-        test: /\.css$/,
-        loader: ExtractTextPlugin.extract('style', 'css')
-      }, {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract(
-          'style',
-          'css!sass?includePaths[]=' + __dirname +  '/node_modules'
-        )
+        loader: 'style!css!sass',
+        include: path.resolve(cssDir),
       }
     ]
   },

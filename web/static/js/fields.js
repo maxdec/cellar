@@ -8,12 +8,28 @@ export const wineFields = [
   'notes'
 ];
 
+export const wineFragment = `
+  fragment wine on Wine {
+    ${wineFields.join(', ')}
+  }
+`;
+
 export const bottleFields = [
   'id',
-  // 'wine',
+  // { wine: wineFields },
   'row',
   'col',
   'acquisition',
   'degustation',
-  'notes'
+  'notes',
+  'updated_at'
 ];
+
+export const bottleFragment = `
+  fragment bottle on Bottle {
+    ${bottleFields.join(', ')}
+    wine {
+      ${wineFields.join(', ')}
+    }
+  }
+`;

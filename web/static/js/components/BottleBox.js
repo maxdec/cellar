@@ -1,14 +1,16 @@
 import React, { PropTypes } from 'react';
 import Gql from 'react-gql';
 import { browserHistory } from 'react-router';
-import { bottleFields } from '../fields';
+import { bottleFragment } from '../fields';
+
+const colors = {
+  red: '#800',
+  rose: '#f69',
+  white: '#ff9',
+};
 
 const fragmentConfig = {
-  fragment: `
-    fragment bottle on Bottle {
-      ${bottleFields.join(', ')}
-    }
-  `
+  fragment: bottleFragment
 };
 
 class BottleBox extends React.Component {
@@ -23,12 +25,26 @@ class BottleBox extends React.Component {
     };
   }
 
+  colorStyle(color) {
+    return { color: colors[color] };
+  }
+
   render() {
     const { bottle } = this.props;
     return (
-      <a href className="thumbnail" onClick={::this.goToBottle(bottle.id)} style={{height: '80px'}}>
-        {bottle.id}
-      </a>
+      <div className="thumbnail clickable" onClick={::this.goToBottle(bottle.id)} style={{height: '160px'}}>
+        <div className="caption">
+          <h3>{bottle.wine.name} { bottle.wine.vintage }</h3>
+          <p>
+            <i className="glyphicon glyphicon-tint bordered" style={::this.colorStyle(bottle.wine.color)} />
+            {bottle.wine.ready_to_drink}
+          </p>
+          <p>
+            <a href="#" className="btn btn-primary">Button</a>
+            <a href="#" className="btn btn-default">Button</a>
+          </p>
+        </div>
+      </div>
     );
   }
 

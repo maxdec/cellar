@@ -1,14 +1,10 @@
 import React, { PropTypes } from 'react';
 import Gql from 'react-gql';
 import { browserHistory } from 'react-router';
-import { wineFields } from '../fields';
+import { wineFields, wineFragment } from '../fields';
 
 const fragmentConfig = {
-  fragment: `
-    fragment wine on Wine {
-      ${wineFields.join(', ')}
-    }
-  `
+  fragment: wineFragment
 };
 
 class WineRow extends React.Component {

@@ -161,7 +161,7 @@ defmodule Cellar.CellarSchema do
   defp create_wine(_, args, _) do
     case Wine.changeset(%Wine{}, args)|> Repo.insert do
       {:ok, wine} -> wine
-      {:error, changeset} -> %{id: "ERROR"} # changeset.changes
+      {:error, _} -> %{id: "ERROR"} # changeset.changes
     end
   end
 
@@ -171,7 +171,7 @@ defmodule Cellar.CellarSchema do
     changeset = Wine.changeset(wine, args)
     case Repo.update(changeset) do
       {:ok, wine} -> wine
-      {:error, changeset} -> %{id: "ERROR"} #changeset.changes
+      {:error, _} -> %{id: "ERROR"} #changeset.changes
     end
   end
 
@@ -195,7 +195,7 @@ defmodule Cellar.CellarSchema do
   defp create_bottle(_, args, _) do
     case Bottle.changeset(%Bottle{}, args)|> Repo.insert do
       {:ok, bottle} -> bottle
-      {:error, changeset} -> %{id: "ERROR"} # changeset.changes
+      {:error, _} -> %{id: "ERROR"} # changeset.changes
     end
   end
 

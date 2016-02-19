@@ -1,14 +1,10 @@
 import React, { PropTypes } from 'react';
 import Gql from 'react-gql';
 import { actions } from '../store';
-import { wineFields } from '../fields';
+import { wineFragment } from '../fields';
 
 const fragmentConfig = {
-  fragment: `
-    fragment wine on Wine {
-      ${wineFields.join(', ')}
-    }
-  `,
+  fragment: wineFragment,
   mutations: {
     edit: {
       query: `
@@ -22,9 +18,10 @@ const fragmentConfig = {
             color: $color,
             notes: $notes,
           ) {
-            ${wineFields.join(', ')}
+            ...wine
           }
         }
+        ${wineFragment}
       `,
       action: [actions.cellar.selectWine]
     }
