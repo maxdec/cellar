@@ -1,6 +1,7 @@
 export BottleBox from './BottleBox';
 export BottleForm from './BottleForm';
 export BottleRow from './BottleRow';
+export EmptyBox from './EmptyBox';
 export Footer from './Footer';
 export Header from './Header';
 export TableHead from './TableHead';

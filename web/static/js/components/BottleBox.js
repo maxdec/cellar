@@ -6,7 +6,7 @@ import { bottleFragment } from '../fields';
 const colors = {
   red: '#800',
   rose: '#f69',
-  white: '#ff9',
+  white: '#ee8',
 };
 
 const fragmentConfig = {
@@ -26,23 +26,36 @@ class BottleBox extends React.Component {
   }
 
   colorStyle(color) {
-    return { color: colors[color] };
+    return { 'background-color': colors[color] };
+  }
+
+  renderNotes(notes) {
+    if (!notes) return;
+    return (
+      <p>
+        <i className="glyphicon glyphicon-pencil" /> {notes}
+      </p>
+    );
   }
 
   render() {
     const { bottle } = this.props;
     return (
-      <div className="thumbnail clickable" onClick={::this.goToBottle(bottle.id)} style={{height: '160px'}}>
+      <div className="thumbnail clickable box" onClick={::this.goToBottle(bottle.id)}>
+        <h3 style={::this.colorStyle(bottle.wine.color)}>
+          {bottle.wine.name}
+        </h3>
         <div className="caption">
-          <h3>{bottle.wine.name} { bottle.wine.vintage }</h3>
           <p>
-            <i className="glyphicon glyphicon-tint bordered" style={::this.colorStyle(bottle.wine.color)} />
-            {bottle.wine.ready_to_drink}
+            <span title="Designation">{bottle.wine.designation}</span> <span title="Vintage">{bottle.wine.vintage}</span>
+          </p>
+          <p title="Ready To Drink">
+            <i className="glyphicon glyphicon-time" /> {bottle.wine.ready_to_drink}
           </p>
           <p>
-            <a href="#" className="btn btn-primary">Button</a>
-            <a href="#" className="btn btn-default">Button</a>
+            <a href="#" className="btn btn-primary"><i className="glyphicon glyphicon-glass" /> Drink</a>
           </p>
+          {::this.renderNotes(bottle.notes)}
         </div>
       </div>
     );

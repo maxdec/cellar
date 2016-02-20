@@ -1,35 +1,56 @@
 import React, { Component } from 'react';
 import Gql from 'react-gql';
-import { BottleBox } from '../components';
+import { BottleBox, EmptyBox } from '../components';
 
 const config = {
   getState: state => ({
-    bottles: state.cellar.bottles
+    rows: state.cellar.rows
   }),
   init: {
     query: `
-      query bottlesQuery {
-        bottles {
+      query cellarQuery {
+        rows {
           ${BottleBox.getFragment()}
         }
       }
     `,
-    action: actions => actions.cellar.getBottles
+    action: actions => actions.cellar.getRows
   }
 };
 
 class Cellar extends Component {
-  renderBoxes() {
-    return this.props.bottles.map(bottle => <BottleBox key={bottle.id} bottle={bottle} />);
+  renderRows(rows) {
+    return rows.map((row, i) => {
+      return (
+        <div className="row" key={i}>
+          {::this.renderBoxes(row)}
+        </div>
+      );
+    });
+  }
+
+  renderBoxes(bottles) {
+    return bottles.map((bottle, i) => {
+      return (
+        <div className="col-xs-3" key={i}>
+          {::this.renderBox(bottle)}
+        </div>
+      );
+    });
+  }
+
+  renderBox(bottle) {
+    return bottle.id ? <BottleBox bottle={bottle} /> : <EmptyBox />;
   }
 
   render() {
-    if (this.props.bottles.length === 0) return(<div />);
+    const { rows } = this.props;
+    if (rows.length === 0) return(<div />);
+
     return (
-      <div className="row">
-        <div className="col-xs-6 col-md-3">
-          {::this.renderBoxes()}
-        </div>
+      <div>
+        <p>&nbsp;</p>
+        {::this.renderRows(rows)}
       </div>
     );
   }

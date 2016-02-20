@@ -18,6 +18,7 @@ defmodule Cellar.CellarSchema do
   alias GraphQL.Type.List
 
   @defaults_pagination %{limit: 10, offset: 0}
+  @defaults_cellar %{rows: 6, cols: 4}
 
   def schema do
     wine = %ObjectType{
@@ -32,8 +33,8 @@ defmodule Cellar.CellarSchema do
         color:          %{type: %NonNull{ofType: colors_enum}},
         notes:          %{type: %String{}},
         # bottles:        %{type: %List{ofType: bottle}},
-        inserted_at:  %{type: %NonNull{ofType: %Timestamp{}}},
-        updated_at:   %{type: %NonNull{ofType: %Timestamp{}}},
+        inserted_at:    %{type: %NonNull{ofType: %Timestamp{}}},
+        updated_at:     %{type: %NonNull{ofType: %Timestamp{}}},
       }
     }
 
@@ -42,7 +43,13 @@ defmodule Cellar.CellarSchema do
       description: "A Bottle of Wine",
       fields: %{
         id:           %{type: %NonNull{ofType: %String{}}},
-        wine:         %{type: %NonNull{ofType: wine}},
+        wine:         %{
+          type:     %NonNull{ofType: wine},
+          resolve:  fn
+            (%{wine_id: wine_id}, _, _) -> Wine |> Repo.get(wine_id)
+            (_, _, _) -> %{}
+          end
+        },
         row:          %{type: %NonNull{ofType: %Int{}}},
         col:          %{type: %NonNull{ofType: %Int{}}},
         acquisition:  %{type: %NonNull{ofType: %Date{}}},
@@ -53,10 +60,17 @@ defmodule Cellar.CellarSchema do
       }
     }
 
+    row = %List{ofType: bottle}
+
     query = %ObjectType{
       name: "CellarQuery",
       description: "Root of the Cellar Schema",
       fields: %{
+        rows: %{
+          type: %List{ofType: row},
+          resolve: &get_rows/3
+        },
+
         wine: %{
           type: wine,
           args: %{id: %{type: %NonNull{ofType: %ID{}}}},
@@ -148,6 +162,46 @@ defmodule Cellar.CellarSchema do
     }
   end
 
+  ##########
+  # CELLAR #
+  ##########
+  defp get_rows(_, _, _) do
+    bottles = Bottle
+      |> where([b], is_nil(b.degustation))
+      |> Repo.all
+      |> assemble_rows
+
+    IO.inspect bottles
+    bottles
+  end
+
+  defp assemble_rows(bottles) do
+    bottles
+      # group by row number
+      |> Enum.group_by(&(&1.row))
+      # fill missing rows
+      |> fill_missing(default_rows)
+      # sort each row and transform back to a List
+      |> Enum.map(fn ({_, bottles}) -> assemble_row(bottles) end)
+  end
+
+  defp assemble_row(bottles) do
+    bottles
+      |> Enum.into(%{}, &({&1.col, &1}))
+      |> fill_missing(default_row)
+      |> Enum.map(fn({_, bottle}) -> bottle end)
+  end
+
+  defp fill_missing(initialMap, defaultMap), do: Map.merge(defaultMap, initialMap)
+
+  defp default_rows do
+    1..@defaults_cellar.rows |> Enum.map(&({&1, []})) |> Map.new
+  end
+
+  defp default_row do
+    1..@defaults_cellar.cols |> Enum.map(&({&1, %{}})) |> Map.new
+  end
+
   #########
   # WINES #
   #########
@@ -167,7 +221,6 @@ defmodule Cellar.CellarSchema do
 
   defp update_wine(_, args = %{id: id}, _) do
     wine = Repo.get!(Wine, id)# |> Repo.preload(:bottles)
-    IO.inspect args
     changeset = Wine.changeset(wine, args)
     case Repo.update(changeset) do
       {:ok, wine} -> wine
@@ -181,7 +234,6 @@ defmodule Cellar.CellarSchema do
   defp get_bottle(_, %{id: id}, ast) do
     Bottle |> Repo.get(id) |> smart_preload(ast, :wine)
   end
-
 
   defp get_bottles(_, args, ast) do
     %{limit: limit, offset: offset} = Map.merge(@defaults_pagination, args)
