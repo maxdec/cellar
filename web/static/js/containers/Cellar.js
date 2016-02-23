@@ -22,7 +22,7 @@ class Cellar extends Component {
   renderRows(rows) {
     return rows.map((row, i) => {
       return (
-        <div className="row" key={i}>
+        <div className="columns" key={i}>
           {::this.renderBoxes(row)}
         </div>
       );
@@ -32,7 +32,7 @@ class Cellar extends Component {
   renderBoxes(bottles) {
     return bottles.map((bottle, i) => {
       return (
-        <div className="col-xs-3" key={i}>
+        <div className="column is-quarter" key={i}>
           {::this.renderBox(bottle)}
         </div>
       );
@@ -49,7 +49,6 @@ class Cellar extends Component {
 
     return (
       <div>
-        <p>&nbsp;</p>
         {::this.renderRows(rows)}
       </div>
     );

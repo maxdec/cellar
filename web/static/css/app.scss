@@ -1,58 +1,130 @@
-/* Space out content a bit */
-body, form, ul, table {
-  margin-top: 20px;
-  margin-bottom: 20px;
+@import "bulma/bulma";
+
+$red-wine: rgb(161, 17, 34);
+$rose-wine: #e68fac;
+$white-wine: #ffea00;
+
+.is-red-wine {
+  background-color: $red-wine;
+  color: white;
+}
+.is-rose-wine {
+  background-color: $rose-wine;
+}
+.is-white-wine {
+  background-color: $white-wine;
 }
 
-/* Phoenix flash messages */
-.alert:empty { display: none; }
-
-/* Phoenix inline forms in links and buttons */
-form.link, form.button {
-  display: inline;
-}
-
-/* Custom page header */
-.header {
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.nav-tabs > li > a {
-  border-bottom-color: #ddd;
-}
-
-.nav-tabs > li > a.active,
-.nav-tabs > li > a:hover.active,
-.nav-tabs > li > a:focus.active {
-  color: #555;
-  cursor: default;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-bottom-color: transparent;
-}
-
-.clickable {
+.is-clickable {
   cursor: pointer;
 }
 
-.bordered {
+.is-bordered {
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
-.box {
-  height: 220px;
+.is-bold {
+  font-weight: 600;
 }
 
-.box.disabled {
-  background-color: #eee;
+.card {
+  height: 270px;
+
+  &.is-disabled {
+    background-color: $grey-lighter;
+  }
+
+  & .is-gapless {
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+  & .is-gapless:not(:last-child) {
+    margin-bottom: 10px;
+  }
 }
 
-.thumbnail > h3 {
-  height: 50px;
-  margin-top: 0;
-  padding-left: 10px;
-  padding-right: 10px;
-  color: white;
-  line-height: 50px;
-  border-radius: 3px 3px 0 0;
+.card-image {
+  padding: 10px;
+
+  &.is-10x2 {
+    padding-top: 20%;
+  }
+
+  &.is-grey {
+    background: $grey-dark;
+  }
+
+  & .title {
+    color: white;
+  }
+}
+
+
+//
+// Basic progress bar
+//
+@mixin progress-variant($color) {
+  &[value]::-webkit-progress-value {
+    background-color: $color;
+  }
+
+  &[value]::-moz-progress-bar {
+    background-color: $color;
+  }
+
+  // IE10+, Microsoft Edge
+  &[value]::-ms-fill {
+    background-color: $color;
+  }
+}
+
+$progress-box-shadow: inset 0 .1rem .1rem rgba(0,0,0,.1) !default;
+
+.progress {
+  display: block;
+  width: 100%;
+  height: 1rem;
+  margin-top: 0.2rem;
+  margin-bottom: 1rem;
+}
+.progress[value] {
+  background-color: $blue;
+  border: 0;
+  appearance: none;
+}
+
+// Filled-in portion of the bar
+.progress[value]::-ms-fill {
+  background-color: $blue;
+  border: 0;
+}
+.progress[value]::-moz-progress-bar {
+  background-color: $blue;
+}
+.progress[value]::-webkit-progress-value {
+  background-color: $blue;
+}
+
+// Unfilled portion of the bar
+.progress[value]::-webkit-progress-bar {
+  background-color: $grey-lighter;
+  // box-shadow: $progress-box-shadow;
+}
+base::-moz-progress-bar,
+.progress[value] {
+  background-color: $grey-lighter;
+  // box-shadow: $progress-box-shadow;
+}
+
+.is-success {
+  @include progress-variant($green);
+}
+.is-info {
+  @include progress-variant($blue);
+}
+.is-warning {
+  @include progress-variant($orange);
+}
+.is-danger {
+  @include progress-variant($red);
 }

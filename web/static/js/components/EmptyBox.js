@@ -10,11 +10,13 @@ export default class EmptyBox extends React.Component {
 
   render() {
     return (
-      <div className="thumbnail box disabled" onClick={::this.goToNewBottle}>
-        <div className="caption">
-          <p>
-            <a href="#" className="btn btn-default"><i className="glyphicon glyphicon-plus" /> Add</a>
-          </p>
+      <div className="card is-clickable is-disabled" onClick={::this.goToNewBottle}>
+        <div className="card-content">
+          <div className="content">
+            <p>
+              <a href="#" className="button"><i className="fa fa-plus" /> Add</a>
+            </p>
+          </div>
         </div>
       </div>
     );

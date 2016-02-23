@@ -2,18 +2,14 @@ import React from 'react';
 import { IndexLink, Link } from 'react-router';
 
 const Header = () => (
-  <header>
-    <ul className="nav nav-tabs">
-      <li role="presentation">
-        <IndexLink to="/" className="btn btn-default" activeClassName="active">Cellar</IndexLink>
-      </li>
-      <li role="presentation">
-        <Link to="/bottles" className="btn btn-default" activeClassName="active">Bottles</Link>
-      </li>
-      <li role="presentation">
-        <Link to="/wines" className="btn btn-default" activeClassName="active">Wines</Link>
-      </li>
-    </ul>
+  <header className="header">
+    <div className="container">
+      <div className="header-left">
+        <IndexLink to="/" className="header-tab" activeClassName="is-active">Cellar</IndexLink>
+        <Link to="/bottles" className="header-tab" activeClassName="is-active">Bottles</Link>
+        <Link to="/wines" className="header-tab" activeClassName="is-active">Wines</Link>
+      </div>
+    </div>
   </header>
 );
 

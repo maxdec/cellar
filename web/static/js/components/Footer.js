@@ -1,8 +1,12 @@
 import React from 'react';
 
 const Footer = () => (
-  <footer>
-    Made by @maxdec
+  <footer className="footer">
+    <div className="container">
+      <div className="is-centered">
+        Cellar by @maxdec
+      </div>
+    </div>
   </footer>
 );
 

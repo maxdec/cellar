@@ -60,7 +60,7 @@ module.exports = {
         }
       }, {
         test: /\.scss$/,
-        loader: 'style!css!sass',
+        loader: 'style!css!sass?includePaths[]=./node_modules',
         include: path.resolve(cssDir),
       }
     ]

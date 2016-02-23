@@ -6,7 +6,11 @@ export default ({ children }) => {
   return (
     <div>
       <Header />
-      {children}
+      <section className="section">
+        <div className="container">
+          {children}
+        </div>
+      </section>
       <Footer />
     </div>
   );
