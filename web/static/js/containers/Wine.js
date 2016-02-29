@@ -15,9 +15,6 @@ const config = {
           }
         }
       `,
-      variables: {
-        id: 1
-      },
       action: actions => actions.cellar.selectWine,
     }
   }
@@ -25,13 +22,15 @@ const config = {
 
 class Wine extends Component {
   componentDidMount() {
-    this.props.mutations.loadWine({ id: this.props.params.id });
+    const { id } = this.props.params;
+    if (id != 'new') this.props.mutations.loadWine({ id: this.props.params.id });
   }
 
   render() {
-    return (
-      <WineFull wine={this.props.wine} />
-    );
+    const { id } = this.props.params;
+    const wine = id === 'new' ? {id: 'new'} : this.props.wine;
+
+    return (<WineFull wine={wine} />);
   }
 }
 

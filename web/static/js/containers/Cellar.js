@@ -20,27 +20,21 @@ const config = {
 
 class Cellar extends Component {
   renderRows(rows) {
-    return rows.map((row, i) => {
+    return rows.map((row, r) => {
       return (
-        <div className="columns" key={i}>
-          {::this.renderBoxes(row)}
+        <div className="card-group" key={r}>
+          {::this.renderBoxes(row, r)}
         </div>
       );
     });
   }
 
-  renderBoxes(bottles) {
-    return bottles.map((bottle, i) => {
-      return (
-        <div className="column is-quarter" key={i}>
-          {::this.renderBox(bottle)}
-        </div>
-      );
-    });
+  renderBoxes(bottles, r) {
+    return bottles.map((bottle, c) => ::this.renderBox(bottle, r, c));
   }
 
-  renderBox(bottle) {
-    return bottle.id ? <BottleBox bottle={bottle} /> : <EmptyBox />;
+  renderBox(bottle, row, col) {
+    return bottle.id ? <BottleBox bottle={bottle} key={col} /> : <EmptyBox key={col} row={row} col={col} />;
   }
 
   render() {

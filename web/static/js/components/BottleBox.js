@@ -33,41 +33,39 @@ class BottleBox extends React.Component {
   render() {
     const { bottle } = this.props;
     const colorClass = classNames({
-      tag: true,
-      'is-pulled-right': true,
+      label: true,
+      'pull-right': true,
       'is-red-wine': bottle.wine.color === 'red',
       'is-rose-wine': bottle.wine.color === 'rose',
       'is-white-wine': bottle.wine.color === 'white',
     });
     return (
-      <div className="card is-clickable" onClick={::this.goToBottle(bottle.id)}>
-        <div className="card-image is-10x2 is-grey">
-          <h3 className="title is-3 is-bold">{bottle.wine.name}</h3>
+      <div className="card" onClick={::this.goToBottle(bottle.id)}>
+        <div className="card-top is-grey font-weight-bold">
+          <h3>{bottle.wine.name}</h3>
         </div>
-        <div className="card-content">
-          <div className="content">
-            <span className={colorClass} title={bottle.wine.color}></span>
-            <p>
-              <span title="Designation">{bottle.wine.designation}</span> <span title="Vintage">{bottle.wine.vintage}</span>
-            </p>
-            <div className="columns is-gapless">
-              <div className="column is-4">
-                <i className="fa fa-clock-o" /> {bottle.wine.ready_to_drink}
-              </div>
-              <div className="column">
-                <ProgressBar wine={bottle.wine} />
-              </div>
+        <div className="card-block">
+          <span className={colorClass} title={bottle.wine.color}>&nbsp;&nbsp;</span>
+          <p className="card-text">
+            <span title="Designation">{bottle.wine.designation}</span> <span title="Vintage">{bottle.wine.vintage}</span>
+          </p>
+          <div className="row">
+            <div className="col-xs-6">
+              <i className="fa fa-clock-o" /> {bottle.wine.ready_to_drink}
             </div>
-            <p>
-              <a href="#" className="button is-outlined">
-                <i className="fa fa-glass" /> Drink
-              </a>&nbsp;
-              <a href="#" className="button is-outlined">
-                <i className="fa fa-arrows" /> Move
-              </a>
-            </p>
-            {::this.renderNotes(bottle.notes)}
+            <div className="col-xs-6">
+              <ProgressBar wine={bottle.wine} />
+            </div>
           </div>
+          <p>
+            <a href="#" className="btn btn-primary-outline btn-sm">
+              <i className="fa fa-glass" /> Drink
+            </a>&nbsp;
+            <a href="#" className="btn btn-primary-outline btn-sm">
+              <i className="fa fa-arrows" /> Move
+            </a>
+          </p>
+          {::this.renderNotes(bottle.notes)}
         </div>
       </div>
     );

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import Gql from 'react-gql';
 import { browserHistory } from 'react-router';
-import { bottleFields, bottleFragment } from '../fields';
+import { bottleDisplayFields, bottleFragment, read } from '../fields';
 
 const fragmentConfig = {
   fragment: bottleFragment
@@ -22,8 +22,8 @@ class BottleRow extends React.Component {
   render() {
     const { bottle } = this.props;
     return (
-      <tr onClick={::this.goToBottle(bottle.id)} className="clickable">
-        {bottleFields.map(field => <td key={field}>{bottle[field]}</td>)}
+      <tr onClick={::this.goToBottle(bottle.id)} className="is-clickable">
+        {bottleDisplayFields.map(field => <td key={field}>{read(bottle, field)}</td>)}
       </tr>
     );
   }

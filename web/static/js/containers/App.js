@@ -4,13 +4,9 @@ import Footer from '../components/Footer';
 
 export default ({ children }) => {
   return (
-    <div>
+    <div className="container">
       <Header />
-      <section className="section">
-        <div className="container">
-          {children}
-        </div>
-      </section>
+      {children}
       <Footer />
     </div>
   );

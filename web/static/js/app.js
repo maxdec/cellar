@@ -8,6 +8,7 @@
 // })
 
 import 'babel-polyfill';
+import 'bootstrap-loader';
 import '../css/app.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -17,7 +18,7 @@ import {
   IndexRoute,
   browserHistory
 } from 'react-router';
-import { App, Bottles, Cellar, Wines, Wine } from './containers';
+import { App, Bottle, Bottles, Cellar, Wines, Wine } from './containers';
 import './config';
 
 ReactDOM.render(
@@ -27,7 +28,7 @@ ReactDOM.render(
       <Route path="wines" component={Wines} />
       <Route path="wines/:id" component={Wine} />
       <Route path="bottles" component={Bottles}/>
-      {/*<Route path="bottles/:id" component={Bottle}/>*/}
+      <Route path="bottles/:id" component={Bottle}/>
     </Route>
   </Router>,
   document.getElementById('app')

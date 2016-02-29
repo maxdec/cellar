@@ -209,7 +209,11 @@ defmodule Cellar.CellarSchema do
 
   defp get_wines(_, args, _) do
     %{limit: limit, offset: offset} = Map.merge(@defaults_pagination, args)
-    Wine |> offset(^offset) |> limit(^limit) |> Repo.all
+    Wine
+      |> order_by([desc: :id])
+      |> offset(^offset)
+      |> limit(^limit)
+      |> Repo.all
   end
 
   defp create_wine(_, args, _) do
@@ -238,6 +242,7 @@ defmodule Cellar.CellarSchema do
   defp get_bottles(_, args, ast) do
     %{limit: limit, offset: offset} = Map.merge(@defaults_pagination, args)
     Bottle
+      |> order_by([desc: :id])
       |> offset(^offset)
       |> limit(^limit)
       |> Repo.all

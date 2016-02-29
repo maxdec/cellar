@@ -45,9 +45,9 @@ const ProgressBar = ({ wine }) => {
   const perc = percentage(wine.ready_to_drink, wine.vintage);
   const progressClass = classNames({
     'progress': true,
-    'is-danger': perc < 50,
-    'is-warning': perc >= 50 && perc < 80,
-    'is-success': perc >= 80
+    'progress-danger': perc < 50,
+    'progress-warning': perc >= 50 && perc < 80,
+    'progress-success': perc >= 80
   });
 
   return (

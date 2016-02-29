@@ -27,6 +27,16 @@ export default {
       });
     };
   },
+  resetSelectedWine: function *() {
+    yield type => {
+      return () => ({type});
+    };
+    yield (state) => {
+      return Object.assign({}, state, {
+        selectedWineIndex: null
+      });
+    };
+  },
   createWine: function *() {
     yield type => {
       return ({wine}) => ({type, wine});

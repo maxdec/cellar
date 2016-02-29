@@ -1,6 +1,7 @@
 var webpack = require('webpack');
 var path = require('path');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
+var autoprefixer = require('autoprefixer');
 
 var publicPath = 'http://localhost:4001/';
 var srcDir = './web/static';
@@ -11,7 +12,7 @@ var env = process.env.MIX_ENV || 'dev';
 var prod = env === 'prod';
 var dev = env === 'dev';
 var hot = 'webpack-hot-middleware/client?path=' + publicPath + '__webpack_hmr';
-var entry = [path.resolve(__dirname, jsDir, 'app.js')];
+var entry = ['bootstrap-loader', path.resolve(__dirname, jsDir, 'app.js')];
 
 var plugins = [
   new CopyWebpackPlugin([
@@ -58,13 +59,28 @@ module.exports = {
         query: {
           presets: ['es2015', 'stage-0', 'react']
         }
-      }, {
+      },
+      // {
+      //   test: /\.scss$/,
+      //   loader: 'style!css!postcss!sass?includePaths[]=./node_modules',
+      //   include: path.resolve(cssDir),
+      // },
+      {
         test: /\.scss$/,
-        loader: 'style!css!sass?includePaths[]=./node_modules',
-        include: path.resolve(cssDir),
-      }
+        loaders: [
+          'style',
+          'css',
+          'postcss',
+          'sass',
+        ],
+      },
+      {
+        test: /\.(woff2?|ttf|eot|svg)$/,
+        loaders: [ 'url?limit=10000' ],
+      },
     ]
   },
 
-  plugins: plugins
+  plugins: plugins,
+  postcss: [ autoprefixer ]
 };

@@ -1,15 +1,20 @@
 import React from 'react';
-import { IndexLink, Link } from 'react-router';
+import { NavItem } from './';
 
 const Header = () => (
-  <header className="header">
-    <div className="container">
-      <div className="header-left">
-        <IndexLink to="/" className="header-tab" activeClassName="is-active">Cellar</IndexLink>
-        <Link to="/bottles" className="header-tab" activeClassName="is-active">Bottles</Link>
-        <Link to="/wines" className="header-tab" activeClassName="is-active">Wines</Link>
+  <header>
+    <nav className="navbar navbar-light bg-faded">
+      <ul className="nav navbar-nav">
+        <NavItem index={true} to="/">Cellar</NavItem>
+        <NavItem index={true} to="/bottles">Bottles</NavItem>
+        <NavItem index={true} to="/wines">Wines</NavItem>
+      </ul>
+
+      <div className="input-group input-group-sm pull-xs-right">
+        <span className="input-group-addon"><i className="fa fa-search" /></span>
+        <input className="form-control" type="text" placeholder="Search" />
       </div>
-    </div>
+    </nav>
   </header>
 );
 

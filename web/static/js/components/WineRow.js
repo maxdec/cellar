@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import Gql from 'react-gql';
 import { browserHistory } from 'react-router';
-import { wineFields, wineFragment } from '../fields';
+import { wineDisplayFields, wineFragment } from '../fields';
 
 const fragmentConfig = {
   fragment: wineFragment
@@ -22,8 +22,8 @@ class WineRow extends React.Component {
   render() {
     const { wine } = this.props;
     return (
-      <tr onClick={::this.goToWine(wine.id)} className="clickable">
-        {wineFields.map(field => <td key={field}>{wine[field]}</td>)}
+      <tr onClick={::this.goToWine(wine.id)} className="is-clickable">
+        {wineDisplayFields.map(field => <td key={field}>{wine[field]}</td>)}
       </tr>
     );
   }
