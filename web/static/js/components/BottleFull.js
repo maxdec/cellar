@@ -30,13 +30,21 @@ const fragmentConfig = {
 
 class BottleFull extends React.Component {
 
-  constructor (props) {
+  constructor (props, context) {
     super(props);
+    const { query } = context.location;
     this.state = {
       edition: props.bottle.id === 'new',
-      edits: {}
+      edits: {
+        row: query.row,
+        col: query.col,
+      }
     };
   }
+
+  static contextTypes = {
+    location: PropTypes.object.isRequire,
+  };
 
   static propTypes = {
     bottle: PropTypes.object,
@@ -61,7 +69,7 @@ class BottleFull extends React.Component {
   clickSave(event) {
     event.preventDefault();
     this.setState({ edition: false });
-    this.props.mutations.edit(Object.assign({}, this.props.bottle, this.state.edits));
+    this.props.mutations.edit({...this.props.bottle, ...this.state.edits});
     browserHistory.push('/bottles');
   }
 

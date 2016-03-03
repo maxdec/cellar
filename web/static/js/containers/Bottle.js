@@ -21,6 +21,14 @@ const config = {
 };
 
 class Bottle extends Component {
+  static childContextTypes = {
+    location: React.PropTypes.object
+  };
+
+  getChildContext() {
+    return { location: this.props.location };
+  }
+
   componentDidMount() {
     const { id } = this.props.params;
     if (id != 'new') this.props.mutations.loadBottle({ id: id });

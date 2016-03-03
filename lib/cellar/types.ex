@@ -15,11 +15,11 @@ defmodule Cellar.Types do
 end
 
 defimpl GraphQL.Types, for: Cellar.Types.Timestamp do
-  def parse_value(_, value), do: Ecto.DateTime.cast(value)
+  def parse_value(_, value), do: Ecto.DateTime.cast!(value)
   def serialize(_, value), do: Ecto.DateTime.to_string(value)
 end
 
 defimpl GraphQL.Types, for: Cellar.Types.Date do
-  def parse_value(_, value), do: Ecto.Date.cast(value)
+  def parse_value(_, value), do: Ecto.Date.cast!(value)
   def serialize(_, value), do: Ecto.Date.to_string(value)
 end

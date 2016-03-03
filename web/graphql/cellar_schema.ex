@@ -147,12 +147,28 @@ defmodule Cellar.CellarSchema do
             wine:         %{type: %NonNull{ofType: %ID{}}},
             row:          %{type: %NonNull{ofType: %Int{}}},
             col:          %{type: %NonNull{ofType: %Int{}}},
-            acquisition:  %{type: %NonNull{ofType: %Int{}}},
-            degustation:  %{type: %Int{}},
+            acquisition:  %{type: %NonNull{ofType: %Date{}}},
+            degustation:  %{type: %Date{}},
             notes:        %{type: %String{}},
           },
           resolve: &create_bottle/3
-        }
+        },
+
+        updateBottle: %{
+          name: "UpdateBottle",
+          description: "Update a Bottle",
+          type: bottle,
+          args: %{
+            id:           %{type: %NonNull{ofType: %ID{}}},
+            wine:         %{type: %ID{}},
+            row:          %{type: %Int{}},
+            col:          %{type: %Int{}},
+            acquisition:  %{type: %Date{}},
+            degustation:  %{type: %Date{}},
+            notes:        %{type: %String{}},
+          },
+          resolve: &update_bottle!/3
+        },
       }
     }
 
@@ -195,11 +211,11 @@ defmodule Cellar.CellarSchema do
   defp fill_missing(initialMap, defaultMap), do: Map.merge(defaultMap, initialMap)
 
   defp default_rows do
-    1..@defaults_cellar.rows |> Enum.map(&({&1, []})) |> Map.new
+    0..@defaults_cellar.rows-1 |> Enum.map(&({&1, []})) |> Map.new
   end
 
   defp default_row do
-    1..@defaults_cellar.cols |> Enum.map(&({&1, %{}})) |> Map.new
+    0..@defaults_cellar.cols-1 |> Enum.map(&({&1, %{}})) |> Map.new
   end
 
   #########
@@ -253,6 +269,15 @@ defmodule Cellar.CellarSchema do
     case Bottle.changeset(%Bottle{}, args)|> Repo.insert do
       {:ok, bottle} -> bottle
       {:error, _} -> %{id: "ERROR"} # changeset.changes
+    end
+  end
+
+  defp update_bottle!(_, args = %{id: id}, _) do
+    bottle = Repo.get!(Bottle, id)
+    changeset = Bottle.changeset(bottle, args)
+    case Repo.update(changeset) do
+      {:ok, bottle} -> bottle
+      {:error, changeset} -> raise GraphQL.InvalidChangesetError, changeset: changeset
     end
   end
 

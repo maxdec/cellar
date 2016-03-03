@@ -61,7 +61,7 @@ class WineFull extends React.Component {
   clickSave(event) {
     event.preventDefault();
     this.setState({ edition: false });
-    this.props.mutations.edit(Object.assign({}, this.props.wine, this.state.edits));
+    this.props.mutations.edit({...this.props.wine, ...this.state.edits});
     browserHistory.push('/wines');
   }
 

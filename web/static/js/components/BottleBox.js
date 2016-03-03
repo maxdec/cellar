@@ -6,7 +6,23 @@ import { bottleFragment } from '../fields';
 import { ProgressBar } from './';
 
 const fragmentConfig = {
-  fragment: bottleFragment
+  fragment: bottleFragment,
+  mutations: {
+    drinkBottle: {
+      query: `
+        mutation drinkBottle($id: ID!, $degustation: String){
+          updateBottle(
+            id: $id,
+            degustation: $degustation
+          ) {
+            ...bottle
+          }
+        }
+        ${bottleFragment}
+      `,
+      action: actions => [actions.cellar.selectBottle, actions.cellar.removeBottleFromCellar]
+    }
+  }
 };
 
 class BottleBox extends React.Component {
@@ -19,6 +35,17 @@ class BottleBox extends React.Component {
       event.preventDefault();
       browserHistory.push(`/bottles/${bottleId}`);
     };
+  }
+
+  onClickDrink(event) {
+    event.preventDefault();
+    const today = new Date().toISOString().slice(0, 10);
+    this.props.mutations.drinkBottle({ id: this.props.bottle.id, degustation: today });
+  }
+
+  onClickMove(event) {
+    event.preventDefault();
+    console.log('MOVE');
   }
 
   renderNotes(notes) {
@@ -40,7 +67,7 @@ class BottleBox extends React.Component {
       'is-white-wine': bottle.wine.color === 'white',
     });
     return (
-      <div className="card" onClick={::this.goToBottle(bottle.id)}>
+      <div className="card">
         <div className="card-top is-grey font-weight-bold">
           <h3>{bottle.wine.name}</h3>
         </div>
@@ -58,12 +85,12 @@ class BottleBox extends React.Component {
             </div>
           </div>
           <p>
-            <a href="#" className="btn btn-primary-outline btn-sm">
+            <button className="btn btn-primary-outline btn-sm" onClick={::this.onClickDrink}>
               <i className="fa fa-glass" /> Drink
-            </a>&nbsp;
-            <a href="#" className="btn btn-primary-outline btn-sm">
+            </button>&nbsp;
+            <button className="btn btn-primary-outline btn-sm" onClick={::this.onClickMove}>
               <i className="fa fa-arrows" /> Move
-            </a>
+            </button>
           </p>
           {::this.renderNotes(bottle.notes)}
         </div>
