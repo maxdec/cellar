@@ -22,7 +22,7 @@ defmodule Cellar.Router do
 
   scope "/graphql" do
     pipe_through :api
-    forward "/", GraphQL.Plug, schema: {Cellar.CellarSchema, :schema}
+    forward "/", Absinthe.Plug, schema: Cellar.GraphQL.Schema
   end
 
   scope "/", Cellar do

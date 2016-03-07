@@ -15,6 +15,7 @@ defmodule Cellar.Wine do
 
   @required_fields ~w(name designation vintage ready_to_drink color)
   @optional_fields ~w(notes)
+  @colors ~w(red white rose)a
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -25,5 +26,8 @@ defmodule Cellar.Wine do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> validate_inclusion(:color, @colors)
+    |> validate_inclusion(:vintage, 1900..2050)
+    |> validate_format(:ready_to_drink, ~r/^[0-9]{4}(-[0-9]{4})?$/) # '2016' or '2016-2018'
   end
 end

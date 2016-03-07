@@ -27,4 +27,7 @@ defmodule Cellar do
     Cellar.Endpoint.config_change(changed, removed)
     :ok
   end
+
+  def rows(), do: Application.get_env(:cellar, :properties)[:rows]
+  def cols(), do: Application.get_env(:cellar, :properties)[:cols]
 end

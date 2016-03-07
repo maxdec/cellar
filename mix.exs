@@ -19,7 +19,7 @@ defmodule Cellar.Mixfile do
   def application do
     [mod: {Cellar, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger,
-                    :plug_graphql, :graphql, :phoenix_ecto, :mariaex]]
+                    :absinthe_plug, :phoenix_ecto, :mariaex]]
   end
 
   # Specifies which paths to compile per environment.
@@ -36,7 +36,9 @@ defmodule Cellar.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:mariaex, ">= 0.0.0"},
      {:cowboy, "~> 1.0"},
-     {:plug_graphql, "~> 0.1.5"}]
+     {:absinthe_plug, github: "absinthe-graphql/absinthe_plug", branch: "master"},
+     {:absinthe, github: "maxdec/absinthe", branch: "master", override: true},
+     {:poison, "~> 1.3"}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.

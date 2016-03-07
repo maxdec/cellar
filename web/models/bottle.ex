@@ -24,5 +24,8 @@ defmodule Cellar.Bottle do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> validate_inclusion(:row, 0..Cellar.rows-1)
+    |> validate_inclusion(:col, 0..Cellar.cols-1)
+    |> foreign_key_constraint(:wine_id)
   end
 end
