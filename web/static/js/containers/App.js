@@ -1,11 +1,12 @@
 import React from 'react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import { Footer, Header } from '../components';
+import { Alerts } from './';
 
 export default ({ children }) => {
   return (
     <div className="container">
       <Header />
+      <Alerts />
       {children}
       <Footer />
     </div>

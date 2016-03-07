@@ -1,6 +1,6 @@
 export BottleBox from './BottleBox';
 export BottleForm from './BottleForm';
-export BottleFull from './BottleFull';
+// export BottleFull from './BottleFull';
 export BottleRow from './BottleRow';
 export EmptyBox from './EmptyBox';
 export Footer from './Footer';
@@ -10,4 +10,4 @@ export ProgressBar from './ProgressBar';
 export TableHead from './TableHead';
 export WineRow from './WineRow';
 export WineForm from './WineForm';
-export WineFull from './WineFull';
+// export WineFull from './WineFull';

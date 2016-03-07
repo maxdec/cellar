@@ -6,8 +6,8 @@ const Header = () => (
     <nav className="navbar navbar-light bg-faded">
       <ul className="nav navbar-nav">
         <NavItem index={true} to="/">Cellar</NavItem>
-        <NavItem index={true} to="/bottles">Bottles</NavItem>
-        <NavItem index={true} to="/wines">Wines</NavItem>
+        <NavItem to="/bottles">Bottles</NavItem>
+        <NavItem to="/wines">Wines</NavItem>
       </ul>
 
       <div className="input-group input-group-sm pull-xs-right">

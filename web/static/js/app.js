@@ -18,17 +18,29 @@ import {
   IndexRoute,
   browserHistory
 } from 'react-router';
-import { App, Bottle, Bottles, Cellar, Wines, Wine } from './containers';
+import {
+  App,
+  BottleEdit, BottleNew, Bottles,
+  Cellar,
+  Container,
+  WineEdit, WineNew, Wines
+} from './containers';
 import './config';
 
 ReactDOM.render(
   <Router history={browserHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={Cellar} />
-      <Route path="wines" component={Wines} />
-      <Route path="wines/:id" component={Wine} />
-      <Route path="bottles" component={Bottles}/>
-      <Route path="bottles/:id" component={Bottle}/>
+      <Route path="wines" component={Container}>
+        <IndexRoute component={Wines} />
+        <Route path="new" component={WineNew} />
+        <Route path=":id" component={WineEdit} />
+      </Route>
+      <Route path="bottles" component={Container}>
+        <IndexRoute component={Bottles}/>
+        <Route path="new" component={BottleNew}/>
+        <Route path=":id" component={BottleEdit}/>
+      </Route>
     </Route>
   </Router>,
   document.getElementById('app')

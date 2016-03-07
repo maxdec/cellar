@@ -9,6 +9,7 @@ class NavItem extends React.Component {
 
   render() {
     const isActive = this.context.router.isActive(this.props.to, this.props.index);
+    console.log(this.props.to, this.props.index, isActive);
     const liClass = classNames({
       'nav-item': true,
       'active': isActive,

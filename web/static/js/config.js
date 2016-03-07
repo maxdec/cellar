@@ -24,7 +24,11 @@ function fetchAndDispatch({query, variables = null, action}) {
     return res.json().then(data => {
       resolveMayBeArray(action, function (action) {
         action = resolveMayBeFn(action, actions);
-        store.dispatch(action(data.data));
+        if (data.errors) {
+          store.dispatch(actions.cellar.handleErrors(data.errors));
+        } else {
+          store.dispatch(action(data.data));
+        }
       });
     });
   });

@@ -1,48 +1,78 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
-const WineForm = ({ wine, edition = false }) => (
-  <form>
-    <div className="form-group">
-      <label className="control-label">Wine</label>
-      <select name="wine" className="form-control"></select>
-      <Link to="/wines/new">New Wine</Link>
-    </div>
+class WineForm extends React.Component {
+  static propTypes = {
+    wine: PropTypes.object,
+    errors: PropTypes.array,
+    submit: PropTypes.func.isRequired,
+  };
 
-    <div className="form-group">
-      <label className="control-label">Acquisition</label>
-      <input type="date" name="acquisition" className="form-control" />
-    </div>
+  static defaultProps = {
+    wine: {},
+    errors: [],
+  };
 
-    <div className="form-group">
-      <label className="control-label">Degustation</label>
-      <input type="date" name="degustation" className="form-control" />
-    </div>
+  constructor (props) {
+    super(props);
+    this.state = {
+      edits: {}
+    };
+  }
 
-    <div className="form-group">
-      <label className="control-label">Row</label>
-      <input type="number" name="row" className="form-control" min="1" max="6" />
-    </div>
+  onChange(event) {
+    const state = this.state;
+    state.edits[event.target.name] = event.target.value;
+    this.setState(state);
+  }
 
-    <div className="form-group">
-      <label className="control-label">Column</label>
-      <input type="number" name="col" className="form-control" min="1" max="4" />
-    </div>
+  clickSubmit(event) {
+    event.preventDefault();
+    const changeset = { ...this.props.wine, ...this.state.edits };
+    this.props.submit(changeset);
+  }
 
-    <div className="form-group">
-      <label className="control-label">Notes</label>
-      <textarea name="notes" className="form-control"></textarea>
-    </div>
+  renderInput(type, name, value) {
+    return (
+      <div className="form-group row">
+        <label className="col-xs-2 form-control-label text-xs-right">{name}</label>
+        <div className="col-xs-6">
+          <input type={type} name={name} value={value} className="form-control form-control-danger" onChange={::this.onChange} />
+        </div>
+      </div>
+    );
+  }
 
-    <div className="form-group">
-      <input type="submit" className="btn btn-primary" value="Submit" />
-    </div>
-  </form>
-);
+  render() {
+    const changeset = { ...this.props.wine, ...this.state.edits };
 
-WineForm.propTypes = {
-  wine: PropTypes.object,
-  edition: PropTypes.boolean,
-};
+    return (
+      <form>
+        {::this.renderInput('text', 'name', changeset.name)}
+        {::this.renderInput('text', 'designation', changeset.designation)}
+        {::this.renderInput('number', 'vintage', changeset.vintage)}
+        {::this.renderInput('text', 'readyToDrink', changeset.readyToDrink)}
+        {::this.renderInput('text', 'color', changeset.color)}
+
+        <div className="form-group row">
+          <label className="col-xs-2 form-control-label text-xs-right">Notes</label>
+          <div className="col-xs-6">
+            <textarea name="notes" value={changeset.notes} className="form-control" onChange={::this.onChange}></textarea>
+          </div>
+        </div>
+
+        <div className="form-group row">
+          <div className="col-xs-6 col-xs-offset-2">
+            <div className="row">
+              <input type="submit" className="btn btn-primary-outline col-xs-2 m-x-1" value="Save" onClick={::this.clickSubmit} />
+              <Link to="/wines" className="btn btn-secondary-outline col-xs-2">Back</Link>
+            </div>
+          </div>
+        </div>
+      </form>
+    );
+  }
+
+}
 
 export default WineForm;

@@ -42,7 +42,7 @@ function percentage(dateToDrink, vintage) {
 }
 
 const ProgressBar = ({ wine }) => {
-  const perc = percentage(wine.ready_to_drink, wine.vintage);
+  const perc = percentage(wine.readyToDrink, wine.vintage);
   const progressClass = classNames({
     'progress': true,
     'progress-danger': perc < 50,

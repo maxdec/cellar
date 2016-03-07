@@ -10,6 +10,7 @@ export default {
     selectedWineIndex: null,
     bottles: [],
     selectedBottleIndex: null,
+    lastErrors: [],
   },
   mutations: {
     ...wines,
@@ -44,5 +45,22 @@ export default {
     //     })
     //   }
     // }
+
+    handleErrors: function *() {
+      yield type => {
+        return errors => ({type, errors});
+      };
+      yield (state, {errors}) => {
+        return {...state, lastErrors: errors || []};
+      };
+    },
+    clearError: function *() {
+      yield type => {
+        return index => ({type, index});
+      };
+      yield (state, {index}) => {
+        return update(state, { lastErrors: { $splice: [index, 1, null] }});
+      };
+    }
   }
 };

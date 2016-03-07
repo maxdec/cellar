@@ -4,17 +4,20 @@ import { browserHistory, Link } from 'react-router';
 import { wineFragment } from '../fields';
 
 const fragmentConfig = {
+  getState: state => ({
+    errors: state.cellar.lastErrors
+  }),
   fragment: wineFragment,
   mutations: {
     edit: {
       query: `
-        mutation updateWine($id: ID!, $name: String, $designation: String, $vintage: Int, $ready_to_drink: String, $color: String, $notes: String){
+        mutation updateWine($id: ID!, $name: String, $designation: String, $vintage: Int, $readyToDrink: String, $color: String, $notes: String){
           updateWine(
             id: $id,
             name: $name,
             designation: $designation,
             vintage: $vintage,
-            ready_to_drink: $ready_to_drink,
+            readyToDrink: $readyToDrink,
             color: $color,
             notes: $notes,
           ) {
@@ -24,6 +27,24 @@ const fragmentConfig = {
         ${wineFragment}
       `,
       action: actions => actions.cellar.selectWine
+    },
+    create: {
+      query: `
+        mutation createWine($name: String!, $designation: String!, $vintage: Int!, $readyToDrink: String!, $color: String!, $notes: String){
+          createWine(
+            name: $name,
+            designation: $designation,
+            vintage: $vintage,
+            readyToDrink: $readyToDrink,
+            color: $color,
+            notes: $notes,
+          ) {
+            ...wine
+          }
+        }
+        ${wineFragment}
+      `,
+      action: actions => [actions.cellar.createWine, actions.cellar.selectWine]
     }
   }
 };
@@ -61,8 +82,14 @@ class WineFull extends React.Component {
   clickSave(event) {
     event.preventDefault();
     this.setState({ edition: false });
-    this.props.mutations.edit({...this.props.wine, ...this.state.edits});
-    browserHistory.push('/wines');
+    const changeset = {...this.props.wine, ...this.state.edits};
+
+    if (!changeset.id || changeset.id === 'new') {
+      this.props.mutations.create(changeset);
+    } else {
+      this.props.mutations.edit(changeset);
+    }
+    // browserHistory.push('/wines');
   }
 
   onChange(event) {
@@ -79,7 +106,7 @@ class WineFull extends React.Component {
         <div className="form-group row">
           <label className="col-xs-2 form-control-label text-xs-right">Name</label>
           <div className="col-xs-6">
-            <input type="text" name="name" value={edits.name || wine.name} className="form-control" readOnly={!edition} onChange={::this.onChange} />
+            <input type="text" name="name" value={edits.name || wine.name} className="form-control {form-control-danger}" readOnly={!edition} onChange={::this.onChange} />
           </div>
         </div>
 
@@ -100,7 +127,7 @@ class WineFull extends React.Component {
         <div className="form-group row">
           <label className="col-xs-2 form-control-label text-xs-right">Ready to Drink</label>
           <div className="col-xs-6">
-            <input type="text" name="ready_to_drink" value={edits.ready_to_drink || wine.ready_to_drink} className="form-control" readOnly={!edition} onChange={::this.onChange} />
+            <input type="text" name="readyToDrink" value={edits.readyToDrink || wine.readyToDrink} className="form-control" readOnly={!edition} onChange={::this.onChange} />
           </div>
         </div>
 
@@ -132,4 +159,4 @@ class WineFull extends React.Component {
 
 }
 
-export default Gql.Fragment(fragmentConfig)(WineFull);
+export default Gql.Root(fragmentConfig)(WineFull);

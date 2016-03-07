@@ -4,11 +4,11 @@ const fields = {
     { name: 'name', display: true },
     { name: 'designation', display: true },
     { name: 'vintage', display: true },
-    { name: 'ready_to_drink', display: true },
+    { name: 'readyToDrink', display: true },
     { name: 'color', display: true },
     { name: 'notes', display: false },
-    { name: 'created_at', display: false },
-    { name: 'updated_at', display: false },
+    { name: 'insertedAt', display: false },
+    { name: 'updatedAt', display: false },
   ],
 
   bottle: [
@@ -16,7 +16,7 @@ const fields = {
     { name: 'name', display: true, nesting: 'wine' },
     { name: 'designation', display: true, nesting: 'wine' },
     { name: 'vintage', display: true, nesting: 'wine' },
-    { name: 'ready_to_drink', display: true, nesting: 'wine' },
+    { name: 'readyToDrink', display: true, nesting: 'wine' },
     { name: 'color', display: true, nesting: 'wine' },
     { name: 'acquisition', display: true },
     { name: 'degustation', display: true },
@@ -24,8 +24,8 @@ const fields = {
     { name: 'row', display: false },
     { name: 'col', display: false },
     { name: 'notes', display: false },
-    { name: 'created_at', display: false },
-    { name: 'updated_at', display: false },
+    { name: 'insertedAt', display: false },
+    { name: 'updatedAt', display: false },
   ],
 };
 
@@ -38,7 +38,10 @@ function getDisplayFields(type) {
 }
 
 function getFragmentFields(type) {
-  return fields[type].map(field => field.name);
+  return fields[type].reduce((acc, field) => {
+    if (field.nesting) return acc;
+    return acc.concat([field.name]);
+  }, []);
 }
 
 export const wineDisplayFields = getDisplayFields('wine');

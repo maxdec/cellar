@@ -10,7 +10,7 @@ const fragmentConfig = {
   mutations: {
     drinkBottle: {
       query: `
-        mutation drinkBottle($id: ID!, $degustation: String){
+        mutation drinkBottle($id: ID!, $degustation: Date!){
           updateBottle(
             id: $id,
             degustation: $degustation
@@ -78,7 +78,7 @@ class BottleBox extends React.Component {
           </p>
           <div className="row">
             <div className="col-xs-6">
-              <i className="fa fa-clock-o" /> {bottle.wine.ready_to_drink}
+              <i className="fa fa-clock-o" /> {bottle.wine.readyToDrink}
             </div>
             <div className="col-xs-6">
               <ProgressBar wine={bottle.wine} />

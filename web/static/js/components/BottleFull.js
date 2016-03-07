@@ -8,13 +8,13 @@ const fragmentConfig = {
   mutations: {
     edit: {
       query: `
-        mutation updateBottle($id: ID!, $name: String, $designation: String, $vintage: Int, $ready_to_drink: String, $color: String, $notes: String){
+        mutation updateBottle($id: ID!, $name: String, $designation: String, $vintage: Int, $readyToDrink: String, $color: String, $notes: String){
           updateBottle(
             id: $id,
             name: $name,
             designation: $designation,
             vintage: $vintage,
-            ready_to_drink: $ready_to_drink,
+            readyToDrink: $readyToDrink,
             color: $color,
             notes: $notes,
           ) {
@@ -70,7 +70,7 @@ class BottleFull extends React.Component {
     event.preventDefault();
     this.setState({ edition: false });
     this.props.mutations.edit({...this.props.bottle, ...this.state.edits});
-    browserHistory.push('/bottles');
+    // browserHistory.push('/bottles');
   }
 
   onChange(event) {
