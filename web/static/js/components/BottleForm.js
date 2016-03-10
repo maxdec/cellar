@@ -9,6 +9,8 @@ class BottleForm extends React.Component {
     bottle: PropTypes.object,
     errors: PropTypes.array,
     submit: PropTypes.func.isRequired,
+    row: PropTypes.string,
+    col: PropTypes.string,
   };
 
   static defaultProps = {
@@ -19,16 +21,22 @@ class BottleForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      edits: {},
+      edits: {
+        col: props.col,
+        row: props.row,
+      },
       validation: {},
     };
   }
 
   componentWillReceiveProps(props) {
-    this.setState({
+    const state = {
       edits: props.bottle,
       validation: {}
-    });
+    };
+    if (props.col) state.edits.col = props.col;
+    if (props.row) state.edits.row = props.row;
+    this.setState(state);
   }
 
   selectWine(wine) {

@@ -1,24 +1,12 @@
 import React, { Component } from 'react';
 import Gql from 'react-gql';
 import { BottleForm } from '../components';
-import { bottleFragment, wineFragment } from '../fields';
+import { bottleFragment } from '../fields';
 
 const config = {
   getState: state => ({
     errors: state.cellar.lastErrors,
-    wines: state.cellar.wines,
   }),
-  init: {
-    query: `
-      query winesQuery {
-        wines {
-          ...wine
-        }
-      }
-      ${wineFragment}
-    `,
-    action: actions => actions.cellar.getWines,
-  },
   mutations: {
     create: {
       query: `
@@ -42,17 +30,22 @@ const config = {
 };
 
 class BottleNew extends Component {
+  static contextTypes = {
+    location: React.PropTypes.object.isRequired,
+  };
+
   submit(changset) {
     this.props.mutations.create(changset);
     // browserHistory.push('/bottles');
   }
 
   render() {
-    const { errors, wines } = this.props;
+    const { errors, location } = this.props;
+    const query = location.query;
     return (
       <div>
         <h2>Bottle</h2>
-        <BottleForm errors={errors} wines={wines} submit={::this.submit} />
+        <BottleForm errors={errors} submit={::this.submit} row={query.row} col={query.col} />
       </div>
     );
   }
