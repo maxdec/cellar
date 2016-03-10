@@ -102,6 +102,23 @@ class WineSelect extends Component {
     });
   }
 
+  handleKeyPress(index) {
+    return (event) => {
+      let newIndex;
+      switch (event.key) {
+        case 'ArrowDown':
+          newIndex = index + 1;
+          break;
+        case 'ArrowUp':
+          newIndex = index - 1;
+          break;
+      }
+
+      const ref = this.refs[`option${newIndex}`];
+      if (ref) ref.focus();
+    };
+  }
+
   renderOptions() {
     const { wines } = this.props;
     if (!this.state.input) return;
@@ -112,9 +129,15 @@ class WineSelect extends Component {
     );
   }
 
-  renderOption(wine) {
+  renderOption(wine, index) {
     return (
-      <a href className="dropdown-item" onClick={::this.handleSelect(wine)} key={wine.id}>
+      <a href
+        className="dropdown-item"
+        key={wine.id}
+        onClick={::this.handleSelect(wine)}
+        onKeyDown={::this.handleKeyPress(index)}
+        ref={`option${index}`}
+      >
         {wine.name} {wine.vintage} ({wine.color})
       </a>
     );
@@ -151,6 +174,9 @@ class WineSelect extends Component {
           placeholder="Search for a Wine..."
           className={this.props.className}
           onFocus={::this.handleFocusInput}
+          onKeyDown={::this.handleKeyPress(-1)}
+          ref="option-1"
+          autoComplete="off"
         />
         {::this.renderOptions()}
       </div>
