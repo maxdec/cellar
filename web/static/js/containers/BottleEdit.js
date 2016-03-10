@@ -1,25 +1,13 @@
 import React, { Component } from 'react';
 import Gql from 'react-gql';
 import { BottleForm } from '../components';
-import { bottleFragment, wineFragment } from '../fields';
+import { bottleFragment } from '../fields';
 
 const config = {
   getState: state => ({
     bottle: state.cellar.bottles[state.cellar.selectedBottleIndex],
     errors: state.cellar.lastErrors,
-    wines: state.cellar.wines,
   }),
-  init: {
-    query: `
-      query winesQuery {
-        wines {
-          ...wine
-        }
-      }
-      ${wineFragment}
-    `,
-    action: actions => actions.cellar.getWines,
-  },
   mutations: {
     loadBottle: {
       query: `
@@ -34,9 +22,10 @@ const config = {
     },
     update: {
       query: `
-        mutation updateBottle($id: ID!, $acquisition: Date, $degustation: Date, $row: Int, $col: Int, $notes: String){
-          updateBottle(
+        mutation updateBottle($id: ID!, $wine: ID, $acquisition: Date, $degustation: Date, $row: Int, $col: Int, $notes: String){
+          bottle: updateBottle(
             id: $id,
+            wineId: $wine,
             acquisition: $acquisition,
             degustation: $degustation,
             row: $row,
@@ -60,16 +49,16 @@ class BottleEdit extends Component {
   }
 
   submit(changset) {
-    this.props.mutations.edit(changset);
+    this.props.mutations.update(changset);
     // browserHistory.push('/bottles');
   }
 
   render() {
-    const { bottle, errors, wines } = this.props;
+    const { bottle, errors } = this.props;
     return (
       <div>
         <h2>Bottle</h2>
-        <BottleForm bottle={bottle} errors={errors} wines={wines} submit={::this.submit} />
+        <BottleForm bottle={bottle} errors={errors} submit={::this.submit} />
       </div>
     );
   }

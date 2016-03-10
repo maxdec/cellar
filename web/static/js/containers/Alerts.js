@@ -9,7 +9,6 @@ const config = {
 class Alerts extends Component {
   render() {
     const { errors } = this.props;
-    console.log(errors);
     if (!errors || errors.length === 0) return (<div></div>);
 
     return (

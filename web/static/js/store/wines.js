@@ -9,6 +9,16 @@ export default {
       });
     };
   },
+  getWinesForSearch: function *() {
+    yield type => {
+      return ({wines}) => ({type, wines});
+    };
+    yield (state, {wines}) => {
+      return Object.assign({}, state, {
+        searchedWines: wines
+      });
+    };
+  },
   selectWine: function *() {
     yield type => {
       return ({wine}) => ({type, wine});

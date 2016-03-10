@@ -12,6 +12,7 @@ defmodule Cellar.Repo.Migrations.CreateWine do
 
       timestamps
     end
+    execute "ALTER TABLE wines ADD FULLTEXT INDEX `ft_name_designation_color` (name, designation, color);"
 
   end
 end

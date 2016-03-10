@@ -7,6 +7,7 @@ export default {
   defaultState: {
     rows: [],
     wines: [],
+    searchedWines: [],
     selectedWineIndex: null,
     bottles: [],
     selectedBottleIndex: null,

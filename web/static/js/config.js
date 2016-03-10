@@ -1,27 +1,18 @@
-import fetch from 'isomorphic-fetch';
 import Gql from 'react-gql';
 import { actions, store } from './store';
+import { graphql } from './utils';
 
 Gql.set({
   store,
   fetchAndDispatch,
-  logger: true,
+  logger: false,
 });
 
 // custom communication strategy
 function fetchAndDispatch({query, variables = null, action}) {
   variables = resolveMayBeFn(variables);
-  return fetch('/graphql', {
-    method: 'post',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      query, variables
-    }),
-  }).then(res => {
-    return res.json().then(data => {
+  return graphql(query, variables)
+    .then(data => {
       resolveMayBeArray(action, function (action) {
         action = resolveMayBeFn(action, actions);
         if (data.errors) {
@@ -31,7 +22,6 @@ function fetchAndDispatch({query, variables = null, action}) {
         }
       });
     });
-  });
 }
 
 // execute function and then return result

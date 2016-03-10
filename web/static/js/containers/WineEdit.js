@@ -23,7 +23,7 @@ const config = {
     edit: {
       query: `
         mutation updateWine($id: ID!, $name: String, $designation: String, $vintage: Int, $readyToDrink: String, $color: String, $notes: String){
-          updateWine(
+          wine: updateWine(
             id: $id,
             name: $name,
             designation: $designation,

@@ -30,6 +30,7 @@ defmodule Cellar.GraphQL.Schema do
     field :wines, type: list_of(:wine) do
       arg :limit, :integer
       arg :offset, :integer
+      arg :q, :string
       resolve &get_wines/2
     end
 
@@ -142,6 +143,19 @@ defmodule Cellar.GraphQL.Schema do
   #########
   defp get_wine(%{id: id}, _), do: {:ok, Repo.get(Wine, id)}
 
+  defp get_wines(%{ q: nil }, _), do: {:ok, []}
+  defp get_wines(%{ q: "" }, _), do: {:ok, []}
+  defp get_wines(%{ q: q } = args, _) do
+    %{limit: limit, offset: offset} = Map.merge(@defaults_pagination, args)
+    wines = Wine
+    |> Wine.search(q)
+    |> offset(^offset)
+    |> limit(^limit)
+    |> Repo.all
+
+    {:ok, wines}
+  end
+
   defp get_wines(args, _) do
     %{limit: limit, offset: offset} = Map.merge(@defaults_pagination, args)
     wines = Wine
@@ -230,16 +244,24 @@ defmodule Cellar.GraphQL.Schema do
     |> Enum.into(%{})
   end
 
-  defp get_selections(ast) do
-    ast.ast_node.selection_set.selections
+  defp get_selections(ast_node) do
+    ast_node.selection_set.selections
   end
 
+  defp is?(%Absinthe.Language.FragmentSpread{}, _field) do
+    true # to be safe, because we can't access the fragment here
+  end
+  defp is?(%Absinthe.Language.InlineFragment{} = frag, field) do
+    frag |> get_selections |> has?(field)
+  end
+  defp is?(selection, field), do: selection.name == field
+
   defp has?(selections, field) do
-    Enum.any?(selections, fn s -> s.name == field end)
+    Enum.any?(selections, &(is?(&1, field)))
   end
 
   defp smart_preload(query, ast, field) do
-    case get_selections(ast) |> has?(to_string(field)) do
+    case ast.ast_node |> get_selections |> has?(to_string(field)) do
       true -> Repo.preload(query, field)
       _ -> query
     end

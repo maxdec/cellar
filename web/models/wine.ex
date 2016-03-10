@@ -30,4 +30,15 @@ defmodule Cellar.Wine do
     |> validate_inclusion(:vintage, 1900..2050)
     |> validate_format(:ready_to_drink, ~r/^[0-9]{4}(-[0-9]{4})?$/) # '2016' or '2016-2018'
   end
+
+  def search(query, search_input) do
+    search_term = search_input
+    |> String.split(" ")
+    |> Enum.map(&("#{&1}*"))
+    |> Enum.join(" ")
+
+    from(w in query,
+      where: fragment("MATCH(name, designation, color) AGAINST(? IN BOOLEAN MODE)", ^search_term),
+      order_by: [desc: fragment("MATCH(name, designation, color) AGAINST(? IN BOOLEAN MODE)", ^search_term)])
+  end
 end

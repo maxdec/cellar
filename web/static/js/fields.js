@@ -56,9 +56,10 @@ export const bottleFragment = `
   fragment bottle on Bottle {
     ${getFragmentFields('bottle').join(', ')}
     wine {
-      ${getFragmentFields('wine').join(', ')}
+      ...wine
     }
   }
+  ${wineFragment}
 `;
 
 export function read(obj, path) {

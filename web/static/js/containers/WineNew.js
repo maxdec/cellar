@@ -11,7 +11,7 @@ const config = {
     create: {
       query: `
         mutation createWine($name: String!, $designation: String!, $vintage: Int!, $readyToDrink: String!, $color: String!, $notes: String){
-          createWine(
+          wine: createWine(
             name: $name,
             designation: $designation,
             vintage: $vintage,

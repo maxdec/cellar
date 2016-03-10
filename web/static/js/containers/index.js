@@ -8,3 +8,4 @@ export Bottles from './Bottles';
 export WineEdit from './WineEdit';
 export WineNew from './WineNew';
 export Wines from './Wines';
+export WineSelect from './WineSelect';

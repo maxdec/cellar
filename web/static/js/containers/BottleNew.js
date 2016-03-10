@@ -22,8 +22,9 @@ const config = {
   mutations: {
     create: {
       query: `
-        mutation createBottle($acquisition: Date!, $degustation: Date, $row: Int!, $col: Int!, $notes: String){
-          createBottle(
+        mutation createBottle($wine: ID!, $acquisition: Date!, $degustation: Date, $row: Int!, $col: Int!, $notes: String){
+          bottle: createBottle(
+            wineId: $wine,
             acquisition: $acquisition,
             degustation: $degustation,
             row: $row,
