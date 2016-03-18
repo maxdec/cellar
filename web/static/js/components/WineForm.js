@@ -75,6 +75,7 @@ class WineForm extends React.Component {
 
   render() {
     const {edits} = this.state;
+    const errors = Object.keys(this.state.validation);
 
     return (
       <form>
@@ -94,7 +95,7 @@ class WineForm extends React.Component {
         <div className="form-group row">
           <div className="col-xs-6 col-xs-offset-2">
             <div className="row">
-              <input type="submit" className="btn btn-primary-outline col-xs-2 m-x-1" value="Save" onClick={::this.clickSubmit} />
+              <input type="submit" className="btn btn-primary-outline col-xs-2 m-x-1" value="Save" onClick={::this.clickSubmit} disabled={errors.length > 0} />
               <Link to="/wines" className="btn btn-secondary-outline col-xs-2">Back</Link>
             </div>
           </div>

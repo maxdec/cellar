@@ -27,10 +27,11 @@ export default {
     // Removes from Cellar only
     removeBottleFromCellar: function *() {
       yield type => {
-        return ({ row, col }) => ({type, row, col});
+        return ({bottle}) => ({type, bottle});
       };
-      yield (state, {row, col}) => {
-        return update(state, { rows: { [row]: { $splice: [col, 1, null] }}});
+      yield (state, {bottle}) => {
+        console.log(bottle);
+        return update(state, { rows: { [bottle.row]: { $splice: [[bottle.col, 1, null]] }}});
       };
     },
     // moveBottle: function *() {
@@ -55,12 +56,13 @@ export default {
         return {...state, lastErrors: errors || []};
       };
     },
-    clearError: function *() {
+    discardError: function *() {
       yield type => {
         return index => ({type, index});
       };
       yield (state, {index}) => {
-        return update(state, { lastErrors: { $splice: [index, 1, null] }});
+        console.log(state, index);
+        return update(state, { lastErrors: { $splice: [[index, 1]] }});
       };
     }
   }

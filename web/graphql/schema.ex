@@ -76,7 +76,7 @@ defmodule Cellar.GraphQL.Schema do
 
     @desc "Create a new Bottle"
     field :create_bottle, type: :bottle do
-      arg :wine,        non_null(:id)
+      arg :wine_id,     non_null(:id)
       arg :row,         non_null(:integer)
       arg :col,         non_null(:integer)
       arg :acquisition, non_null(:date)

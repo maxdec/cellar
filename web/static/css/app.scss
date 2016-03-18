@@ -47,7 +47,11 @@ header {
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
-.card {
+.is-full-width {
+  width: 100%;
+}
+
+.cellar-box {
   min-height: 250px;
 
   &.is-disabled {
@@ -66,6 +70,34 @@ header {
   }
 }
 
+.cellar-header {
+  border: none;
+  color: $grey-light;
+  font-weight: 800;
+  font-size: 1.8em;
+  margin-bottom: 5px;
+
+  &.is-full-centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.cellar-row-header {
+  border: none;
+  color: $grey-light;
+  font-weight: 800;
+  font-size: 1.8em;
+  margin-right: 10px;
+
+  &.is-full-centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
 //
 // Basic progress bar
 //
@@ -74,4 +106,16 @@ header {
   height: 1rem;
   margin-top: 0.2rem;
   margin-bottom: 1rem;
+}
+
+.color-label {
+  margin-left: 1em;
+  margin-right: 1em;
+  line-height: 1.1em;
+  position: relative;
+  top: 2px;
+}
+
+.btn .color-label {
+  top: 2px;
 }

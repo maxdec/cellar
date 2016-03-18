@@ -10,9 +10,9 @@ const config = {
   mutations: {
     create: {
       query: `
-        mutation createBottle($wine: ID!, $acquisition: Date!, $degustation: Date, $row: Int!, $col: Int!, $notes: String){
+        mutation createBottle($wineId: ID!, $acquisition: Date!, $degustation: Date, $row: Int!, $col: Int!, $notes: String){
           bottle: createBottle(
-            wineId: $wine,
+            wineId: $wineId,
             acquisition: $acquisition,
             degustation: $degustation,
             row: $row,
@@ -35,6 +35,7 @@ class BottleNew extends Component {
   };
 
   submit(changset) {
+    console.log(changset);
     this.props.mutations.create(changset);
     // browserHistory.push('/bottles');
   }

@@ -3,6 +3,7 @@ import Gql from 'react-gql';
 import classNames from 'classnames';
 import listensToClickOutside from 'react-onclickoutside/decorator';
 import { wineFragment } from '../fields';
+import { ColorLabel } from '../components';
 
 function debounce(func, wait, immediate) {
   var timeout;
@@ -123,7 +124,7 @@ class WineSelect extends Component {
     const { wines } = this.props;
     if (!this.state.input) return;
     return (
-      <div className="dropdown-menu">
+      <div className="dropdown-menu is-full-width">
         {wines.map(::this.renderOption)}
       </div>
     );
@@ -138,7 +139,8 @@ class WineSelect extends Component {
         onKeyDown={::this.handleKeyPress(index)}
         ref={`option${index}`}
       >
-        {wine.name} {wine.vintage} ({wine.color})
+        <ColorLabel color={wine.color} className="pull-right" />
+        {wine.name} {wine.vintage}
       </a>
     );
   }
@@ -147,7 +149,7 @@ class WineSelect extends Component {
     return(
       <div>
         <div className="btn-group btn-group-sm">
-          <a className="btn btn-secondary disabled">{wine.name} {wine.vintage} ({wine.color})</a>
+          <a className="btn btn-secondary disabled"><ColorLabel color={wine.color} className="pull-right" /> {wine.name} {wine.vintage}</a>
           <button className="btn btn-secondary" onClick={::this.handleClearSelection}>&times;</button>
         </div>
       </div>

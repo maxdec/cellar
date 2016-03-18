@@ -14,7 +14,7 @@ export default class EmptyBox extends React.Component {
 
   render() {
     return (
-      <div className="card is-clickable is-disabled is-full-centered" onClick={::this.goToNewBottle}>
+      <div className="card cellar-box is-clickable is-disabled is-full-centered" onClick={::this.goToNewBottle}>
         <span><i className="fa fa-plus" /> Add</span>
       </div>
     );

@@ -13,8 +13,8 @@ function fetchAndDispatch({query, variables = null, action}) {
   variables = resolveMayBeFn(variables);
   return graphql(query, variables)
     .then(data => {
+      action = resolveMayBeFn(action, actions);
       resolveMayBeArray(action, function (action) {
-        action = resolveMayBeFn(action, actions);
         if (data.errors) {
           store.dispatch(actions.cellar.handleErrors(data.errors));
         } else {

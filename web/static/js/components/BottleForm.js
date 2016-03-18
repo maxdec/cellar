@@ -63,7 +63,7 @@ class BottleForm extends React.Component {
     event.preventDefault();
     this.props.submit({
       ...this.state.edits,
-      wine: (this.state.edits.wine || {}).id
+      wineId: (this.state.edits.wine || {}).id
     });
   }
 
@@ -126,13 +126,14 @@ class BottleForm extends React.Component {
 
   render() {
     const { edits } = this.state;
+    const errors = Object.keys(this.state.validation);
 
     return (
       <form onSubmit={::this.submit}>
 
         {::this.renderWineInput()}
-        {::this.renderInput('date', 'acquisition', '01-01-2016')}
-        {::this.renderInput('date', 'degustation', '05-01-2016')}
+        {::this.renderInput('date', 'acquisition', '2016-01-13')}
+        {::this.renderInput('date', 'degustation', '2016-02-25')}
         {::this.renderInput('number', 'row', '1')}
         {::this.renderInput('number', 'col', '1')}
 
@@ -146,7 +147,7 @@ class BottleForm extends React.Component {
         <div className="form-group row">
           <div className="col-xs-6 col-xs-offset-2">
             <div className="row">
-              <input type="submit" className="btn btn-primary-outline col-xs-2 m-x-1" value="Save" onClick={::this.submit} />
+              <input type="submit" className="btn btn-primary-outline col-xs-2 m-x-1" value="Save" onClick={::this.submit} disabled={errors.length > 0} />
               <Link to="/bottles" className="btn btn-secondary-outline col-xs-2">Back</Link>
             </div>
           </div>
