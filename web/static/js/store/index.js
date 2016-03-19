@@ -7,8 +7,6 @@ import { syncHistory, routeReducer } from 'react-router-redux';
 
 import cellar from './cellar';
 
-let logger = createLogger();
-
 const reduxRouterMiddleware = syncHistory(browserHistory);
 
 let {actions, reducers} = genActionsAndReducers(cellar);
@@ -17,10 +15,14 @@ reducers = Object.assign({}, reducers, {
   routing: routeReducer
 });
 
+let middlewares = [Gql.connect, reduxRouterMiddleware];
+if (process.env.NODE_ENV !== 'production') {
+  let logger = createLogger();
+  middlewares = [...middlewares, logger];
+}
+
 let createStoreWithMiddleware = applyMiddleware(
-  Gql.connect,
-  logger,
-  reduxRouterMiddleware,
+  ...middlewares
 )(createStore);
 
 const store = createStoreWithMiddleware(
