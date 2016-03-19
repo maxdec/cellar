@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Gql from 'react-gql';
+import { browserHistory } from 'react-router';
 import { WineForm } from '../components';
 import { wineFragment } from '../fields';
 
@@ -32,7 +33,7 @@ const config = {
 class WineNew extends Component {
   submit(changeset) {
     this.props.mutations.create(changeset);
-    // browserHistory.push('/wines');
+    browserHistory.push('/wines');
   }
 
   render() {

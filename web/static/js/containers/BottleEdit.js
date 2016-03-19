@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Gql from 'react-gql';
+import { browserHistory } from 'react-router';
 import { BottleForm } from '../components';
 import { bottleFragment } from '../fields';
 
@@ -50,7 +51,7 @@ class BottleEdit extends Component {
 
   submit(changset) {
     this.props.mutations.update(changset);
-    // browserHistory.push('/bottles');
+    browserHistory.push('/bottles');
   }
 
   render() {
