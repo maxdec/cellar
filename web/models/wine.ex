@@ -15,7 +15,7 @@ defmodule Cellar.Wine do
 
   @required_fields ~w(name designation vintage ready_to_drink color)
   @optional_fields ~w(notes)
-  @colors ~w(red white rose)a
+  @colors ~w(red white rose)
 
   @doc """
   Creates a changeset based on the `model` and `params`.
