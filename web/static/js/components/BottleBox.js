@@ -65,7 +65,7 @@ class BottleBox extends React.Component {
           <h3>{bottle.wine.name}</h3>
         </div>
         <div className="card-block">
-          <ColorLabel color={bottle.wine.color} className="pull-right" />
+          <ColorLabel color={bottle.wine.color} className="pull-xs-right" />
           <p className="card-text">
             <span title="Designation">{bottle.wine.designation}</span> <span title="Vintage">{bottle.wine.vintage}</span>
           </p>

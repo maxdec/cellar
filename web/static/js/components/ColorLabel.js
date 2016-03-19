@@ -6,7 +6,7 @@ export default ({className, color}) => {
     [className]: true,
     label: true,
     'color-label': true,
-    // 'pull-right': true,
+    // 'pull-xs-right': true,
     'is-red-wine': color === 'red',
     'is-rose-wine': color === 'rose',
     'is-white-wine': color === 'white',

@@ -23,7 +23,7 @@ class Alerts extends Component {
       <div>
         {errors.map((err, i) => (
           <div className="alert alert-danger" role="alert" key={i}>
-            <a className="close pull-right" onClick={::this.handleDiscard(i)}>&times;</a>
+            <a className="close pull-xs-right" onClick={::this.handleDiscard(i)}>&times;</a>
             <strong>Error!</strong> {err.message}
           </div>
         ))}

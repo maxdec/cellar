@@ -139,7 +139,7 @@ class WineSelect extends Component {
         onKeyDown={::this.handleKeyPress(index)}
         ref={`option${index}`}
       >
-        <ColorLabel color={wine.color} className="pull-right" />
+        <ColorLabel color={wine.color} className="pull-xs-right" />
         {wine.name} {wine.vintage}
       </a>
     );
@@ -149,7 +149,7 @@ class WineSelect extends Component {
     return(
       <div>
         <div className="btn-group btn-group-sm">
-          <a className="btn btn-secondary disabled"><ColorLabel color={wine.color} className="pull-right" /> {wine.name} {wine.vintage}</a>
+          <a className="btn btn-secondary disabled"><ColorLabel color={wine.color} className="pull-xs-right" /> {wine.name} {wine.vintage}</a>
           <button className="btn btn-secondary" onClick={::this.handleClearSelection}>&times;</button>
         </div>
       </div>
