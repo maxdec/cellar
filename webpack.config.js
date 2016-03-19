@@ -8,9 +8,9 @@ var srcDir = './web/static';
 var jsDir = srcDir + '/js';
 var cssDir = srcDir + '/css';
 
-var env = process.env.MIX_ENV || 'dev';
-var prod = env === 'prod';
-var dev = env === 'dev';
+var env = process.env.NODE_ENV || 'development';
+var prod = env === 'production';
+var dev = env === 'development';
 var hot = 'webpack-hot-middleware/client?path=' + publicPath + '__webpack_hmr';
 var entry = ['bootstrap-loader', path.resolve(__dirname, jsDir, 'app.js')];
 
@@ -34,6 +34,13 @@ var plugins = [
 if (dev) {
   plugins.push(new webpack.HotModuleReplacementPlugin());
   entry.push(hot);
+}
+
+if (prod) {
+  plugins.push(
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.UglifyJsPlugin({ minimize: true })
+  );
 }
 
 module.exports = {
