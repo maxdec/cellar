@@ -67,6 +67,13 @@ header {
     color: $grey-faded;
     padding-top: 20%;
     background-color: $grey-dark;
+    display: flex;
+    flex-direction: column-reverse;
+    height: 8.5rem;
+    h3 {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 }
 
@@ -118,4 +125,12 @@ header {
 
 .btn .color-label {
   top: 2px;
+}
+
+.form-group .btn-group {
+  display: flex;
+}
+
+.is-flex-fill {
+  flex: 1;
 }

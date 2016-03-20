@@ -62,7 +62,7 @@ class BottleBox extends React.Component {
     return (
       <div className="card cellar-box">
         <div className="card-top is-grey font-weight-bold">
-          <h3>{bottle.wine.name}</h3>
+          <h3 title={bottle.wine.name}>{bottle.wine.name}</h3>
         </div>
         <div className="card-block">
           <ColorLabel color={bottle.wine.color} className="pull-xs-right" />
