@@ -44,10 +44,10 @@ export default {
     yield (state, {bottle}) => {
       return Object.assign({}, state, {
         bottles: [
+          bottle,
           ...state.bottles,
-          bottle
         ],
-        selectedBottleIndex: state.bottles.length
+        selectedBottleIndex: null
       });
     };
   },

@@ -54,10 +54,10 @@ export default {
     yield (state, {wine}) => {
       return Object.assign({}, state, {
         wines: [
+          wine,
           ...state.wines,
-          wine
         ],
-        selectedWineIndex: state.wines.length
+        selectedWineIndex: null
       });
     };
   },
