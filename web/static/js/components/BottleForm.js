@@ -14,24 +14,23 @@ class BottleForm extends React.Component {
   };
 
   static defaultProps = {
-    bottle: {},
+    // bottle: {},
     errors: []
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      edits: {
-        col: props.col,
-        row: props.row,
-      },
+      edits: {},
       validation: {},
     };
+    if (props.col) this.state.edits.col = props.col;
+    if (props.row) this.state.edits.row = props.row;
   }
 
   componentWillReceiveProps(props) {
     const state = {
-      edits: props.bottle,
+      edits: props.bottle || {},
       validation: {}
     };
     if (props.col) state.edits.col = props.col;
@@ -113,6 +112,7 @@ class BottleForm extends React.Component {
       'form-control-danger': error,
       'form-control-success': !error,
     });
+
     return (
       <div className={formClass}>
         <label className="col-xs-2 form-control-label text-xs-right">Wine</label>

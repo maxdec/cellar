@@ -6,16 +6,17 @@ import { wineFragment } from '../fields';
 import { ColorLabel } from '../components';
 
 function debounce(func, wait, immediate) {
-  var timeout;
-  return function() {
-    var context = this, args = arguments;
-    var later = function() {
+  let timeout;
+  return function(...args) {
+    const context = this;
+    function later() {
       timeout = null;
       if (!immediate) func.apply(context, args);
-    };
-    var callNow = immediate && !timeout;
+    }
+    const callNow = immediate && !timeout;
     clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
+    timeout = setTimeout(later, wait || 200);
+
     if (callNow) func.apply(context, args);
   };
 }
@@ -66,7 +67,6 @@ class WineSelect extends Component {
   }
 
   handleChange(event) {
-    event.preventDefault();
     this.setState({
       ...this.state,
       input: event.target.value,
@@ -75,7 +75,7 @@ class WineSelect extends Component {
   }
 
   handleSelect(wine) {
-    return (event) =>{
+    return (event) => {
       event.preventDefault();
       this.setState({
         ...this.state,
@@ -105,7 +105,7 @@ class WineSelect extends Component {
 
   handleKeyPress(index) {
     return (event) => {
-      let newIndex;
+      let newIndex = index;
       switch (event.key) {
         case 'ArrowDown':
           newIndex = index + 1;
@@ -113,6 +113,8 @@ class WineSelect extends Component {
         case 'ArrowUp':
           newIndex = index - 1;
           break;
+        default:
+          return;
       }
 
       const ref = this.refs[`option${newIndex}`];
@@ -126,6 +128,7 @@ class WineSelect extends Component {
     return (
       <div className="dropdown-menu is-full-width">
         {wines.map(::this.renderOption)}
+        {::this.renderNoResult(wines)}
       </div>
     );
   }
@@ -145,11 +148,17 @@ class WineSelect extends Component {
     );
   }
 
+  renderNoResult(wines) {
+    if (wines.length === 0) {
+      return <em className="dropdown-header disabled">No result</em>;
+    }
+  }
+
   renderSelection(wine) {
     return(
       <div>
         <div className="btn-group btn-group-sm">
-          <a className="btn btn-secondary disabled"><ColorLabel color={wine.color} className="pull-xs-right" /> {wine.name} {wine.vintage}</a>
+          <a className="btn btn-secondary disabled is-flex-fill"><ColorLabel color={wine.color} className="pull-xs-right" /> {wine.name} {wine.vintage}</a>
           <button className="btn btn-secondary" onClick={::this.handleClearSelection}>&times;</button>
         </div>
       </div>

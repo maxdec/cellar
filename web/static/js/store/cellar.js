@@ -30,7 +30,6 @@ export default {
         return ({bottle}) => ({type, bottle});
       };
       yield (state, {bottle}) => {
-        console.log(bottle);
         return update(state, { rows: { [bottle.row]: { $splice: [[bottle.col, 1, null]] }}});
       };
     },
@@ -61,7 +60,6 @@ export default {
         return index => ({type, index});
       };
       yield (state, {index}) => {
-        console.log(state, index);
         return update(state, { lastErrors: { $splice: [[index, 1]] }});
       };
     }
