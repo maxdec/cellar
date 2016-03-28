@@ -3,29 +3,31 @@ defmodule Cellar.GraphQL.Types do
 
   @desc "A Wine"
   object :wine do
-    field :id, non_null(:id)
-    field :name, non_null(:string)
-    field :designation, non_null(:string)
-    field :vintage, non_null(:integer)
-    field :ready_to_drink, non_null(:string)
-    field :color, non_null(:string)
-    field :notes, :string
-    field :bottles, list_of(:bottle)
-    field :inserted_at, non_null(:timestamp)
-    field :updated_at, non_null(:timestamp)
+    field :id,              non_null(:id)
+    field :name,            non_null(:string)
+    field :designation,     non_null(:string)
+    field :vintage,         non_null(:integer)
+    field :ready_to_drink,  non_null(:string)
+    field :color,           non_null(:string)
+    field :notes,           :string
+    field :bottles,         list_of(:bottle)
+    field :inserted_at,     non_null(:timestamp)
+    field :updated_at,      non_null(:timestamp)
   end
 
   @desc "A Bottle of Wine"
   object :bottle do
-    field :id, non_null(:id)
-    field :wine, non_null(:wine)
-    field :row, non_null(:integer)
-    field :col, non_null(:integer)
+    field :id,          non_null(:id)
+    field :wine,        non_null(:wine)
+    field :row,         non_null(:integer)
+    field :col,         non_null(:integer)
     field :acquisition, non_null(:date)
     field :degustation, :date
-    field :notes, :string
+    field :price,       :integer
+    field :rating,      :integer
+    field :notes,       :string
     field :inserted_at, non_null(:timestamp)
-    field :updated_at, non_null(:timestamp)
+    field :updated_at,  non_null(:timestamp)
   end
 
   @desc "A Color of Wine"

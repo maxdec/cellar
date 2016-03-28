@@ -24,6 +24,8 @@ const bottleConstraints = {
   degustation: { date: true },
   row: { presence: true, numericality: { onlyInteger: true, greaterThanOrEqualTo: 0, lessThan: 6, }},
   col: { presence: true, numericality: { onlyInteger: true, greaterThanOrEqualTo: 0, lessThan: 4, }},
+  rating: { numericality: { onlyInteger: true, greaterThanOrEqualTo: 0, lessThanOrEqualTo: 5, }},
+  price: { numericality: { onlyInteger: true, greaterThanOrEqualTo: 0, }},
 };
 
 export const validateWine = (wine) => (validate(wine, wineConstraints));

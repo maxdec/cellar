@@ -20,6 +20,8 @@ const fields = {
     { name: 'color', display: true, nesting: 'wine' },
     { name: 'acquisition', display: true },
     { name: 'degustation', display: true },
+    { name: 'rating', display: true },
+    { name: 'price', display: true },
     { name: 'notes', display: true, nesting: 'wine' },
     { name: 'row', display: false },
     { name: 'col', display: false },

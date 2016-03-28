@@ -81,6 +81,8 @@ defmodule Cellar.GraphQL.Schema do
       arg :col,         non_null(:integer)
       arg :acquisition, non_null(:date)
       arg :degustation, :date
+      arg :price,       :integer
+      arg :rating,      :integer
       arg :notes,       :string
       resolve &create_bottle/2
     end
@@ -93,6 +95,8 @@ defmodule Cellar.GraphQL.Schema do
       arg :col,         :integer
       arg :acquisition, :date
       arg :degustation, :date
+      arg :price,       :integer
+      arg :note,        :integer
       arg :notes,       :string
       resolve &update_bottle/2
     end
