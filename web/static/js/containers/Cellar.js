@@ -35,7 +35,7 @@ class Cellar extends Component {
   }
 
   renderBox(bottle, row, col) {
-    return bottle.id ? <BottleBox bottle={bottle} key={col} /> : <EmptyBox key={col} row={row} col={col} />;
+    return (bottle && bottle.id) ? <BottleBox bottle={bottle} key={col} /> : <EmptyBox key={col} row={row} col={col} />;
   }
 
   renderHeader(rows) {

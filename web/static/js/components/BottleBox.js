@@ -34,7 +34,7 @@ class BottleBox extends React.Component {
   };
 
   render() {
-    const { bottle } = this.props;
+    const { bottle, mutations } = this.props;
 
     return (
       <div className="card cellar-box">
@@ -56,7 +56,7 @@ class BottleBox extends React.Component {
           </div>
           <p>
             <div className="btn-group">
-              <button className="btn btn-primary-outline btn-sm" onClick={handleDrink(this.props.mutations.drinkBottle)}>
+              <button className="btn btn-primary-outline btn-sm" onClick={handleDrink(bottle.id, mutations.drinkBottle)}>
                 <i className="fa fa-glass" /> Drink
               </button>&nbsp;
               <button className="btn btn-primary-outline btn-sm" onClick={handleMove}>
@@ -81,11 +81,11 @@ export default Gql.Fragment(fragmentConfig)(BottleBox);
 /**
  * Private helpers
  */
-function handleDrink(drinkBottle) {
+function handleDrink(bottleId, drinkBottle) {
   return (event) => {
     event.preventDefault();
     const today = new Date().toISOString().slice(0, 10);
-    drinkBottle({ id: this.props.bottle.id, degustation: today });
+    drinkBottle({ id: bottleId, degustation: today });
   };
 }
 
