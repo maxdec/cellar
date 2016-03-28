@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Gql from 'react-gql';
-import { browserHistory } from 'react-router';
 import { WineForm } from '../components';
 import { wineFragment } from '../fields';
 
@@ -44,6 +43,10 @@ const config = {
 };
 
 class WineEdit extends Component {
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  };
+
   componentDidMount() {
     const { id } = this.props.params;
     this.props.mutations.loadWine({ id: id });
@@ -51,7 +54,7 @@ class WineEdit extends Component {
 
   submit(changeset) {
     this.props.mutations.edit(changeset);
-    browserHistory.push('/wines');
+    this.context.router.push('/wines');
   }
 
   render() {

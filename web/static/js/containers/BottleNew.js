@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Gql from 'react-gql';
-import { browserHistory } from 'react-router';
 import { BottleForm } from '../components';
 import { bottleFragment } from '../fields';
 
@@ -33,11 +32,12 @@ const config = {
 class BottleNew extends Component {
   static contextTypes = {
     location: React.PropTypes.object.isRequired,
+    router: React.PropTypes.object.isRequired,
   };
 
   submit(changset) {
     this.props.mutations.create(changset);
-    browserHistory.push('/bottles');
+    this.context.router.push('/bottles');
   }
 
   render() {

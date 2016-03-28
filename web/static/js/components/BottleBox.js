@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import Gql from 'react-gql';
-import { browserHistory } from 'react-router';
+import Linkify from 'react-linkify';
 import { bottleFragment } from '../fields';
 import { ColorLabel, ProgressBar } from './';
 
@@ -29,32 +29,9 @@ class BottleBox extends React.Component {
     bottle: PropTypes.object.isRequired
   };
 
-  goToBottle(bottleId) {
-    return (event) => {
-      event.preventDefault();
-      browserHistory.push(`/bottles/${bottleId}`);
-    };
-  }
-
-  handleDrink(event) {
-    event.preventDefault();
-    const today = new Date().toISOString().slice(0, 10);
-    this.props.mutations.drinkBottle({ id: this.props.bottle.id, degustation: today });
-  }
-
-  handleMove(event) {
-    event.preventDefault();
-    console.log('MOVE');
-  }
-
-  renderNotes(notes) {
-    if (!notes) return;
-    return (
-      <p>
-        <span className="icon is-small"><i className="fa fa-pencil" /></span> {notes}
-      </p>
-    );
-  }
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  };
 
   render() {
     const { bottle } = this.props;
@@ -78,19 +55,58 @@ class BottleBox extends React.Component {
             </div>
           </div>
           <p>
-            <button className="btn btn-primary-outline btn-sm" onClick={::this.handleDrink}>
-              <i className="fa fa-glass" /> Drink
-            </button>&nbsp;
-            <button className="btn btn-primary-outline btn-sm" onClick={::this.handleMove}>
-              <i className="fa fa-arrows" /> Move
-            </button>
+            <div className="btn-group">
+              <button className="btn btn-primary-outline btn-sm" onClick={handleDrink(this.props.mutations.drinkBottle)}>
+                <i className="fa fa-glass" /> Drink
+              </button>&nbsp;
+              <button className="btn btn-primary-outline btn-sm" onClick={handleMove}>
+                <i className="fa fa-arrows" /> Move
+              </button>
+              <button className="btn btn-primary-outline btn-sm" onClick={goToBottle(bottle.id, this.context.router)}>
+                <i className="fa fa-pencil-square-o" /> Edit
+              </button>
+            </div>
           </p>
-          {::this.renderNotes(bottle.notes)}
+          <p>
+            {renderNotes(bottle)}
+          </p>
         </div>
       </div>
     );
   }
-
 }
 
 export default Gql.Fragment(fragmentConfig)(BottleBox);
+
+/**
+ * Private helpers
+ */
+function handleDrink(drinkBottle) {
+  return (event) => {
+    event.preventDefault();
+    const today = new Date().toISOString().slice(0, 10);
+    drinkBottle({ id: this.props.bottle.id, degustation: today });
+  };
+}
+
+function goToBottle(bottleId, router) {
+  return (event) => {
+    event.preventDefault();
+    router.push(`/bottles/${bottleId}`);
+  };
+}
+
+function handleMove(event) {
+  event.preventDefault();
+  console.log('MOVE');
+}
+
+function renderNotes(bottle) {
+  if (!bottle.notes && !bottle.wine.notes) return;
+  return (
+    <ul className="list-unstyled">
+      <li><Linkify>{bottle.notes}</Linkify></li>
+      <li className="text-muted"><Linkify>{bottle.wine.notes}</Linkify></li>
+    </ul>
+  );
+}

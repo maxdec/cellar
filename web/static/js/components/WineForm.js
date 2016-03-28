@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
 import classNames from 'classnames';
 import { validateWine } from '../utils';
 
@@ -13,6 +12,10 @@ class WineForm extends React.Component {
   static defaultProps = {
     wine: {},
     errors: [],
+  };
+
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
   };
 
   constructor(props) {
@@ -96,7 +99,7 @@ class WineForm extends React.Component {
           <div className="col-xs-6 col-xs-offset-2">
             <div className="row">
               <input type="submit" className="btn btn-primary-outline col-xs-2 m-x-1" value="Save" onClick={::this.clickSubmit} disabled={errors.length > 0} />
-              <Link to="/wines" className="btn btn-secondary-outline col-xs-2">Back</Link>
+              <a onClick={goBack(this.context.router)} className="btn btn-secondary-outline col-xs-2">Back</a>
             </div>
           </div>
         </div>
@@ -107,3 +110,13 @@ class WineForm extends React.Component {
 }
 
 export default WineForm;
+
+/**
+ * Private helpers
+ */
+function goBack(router) {
+  return (event) => {
+    event.preventDefault();
+    router.goBack();
+  };
+}

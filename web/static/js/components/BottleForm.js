@@ -18,6 +18,10 @@ class BottleForm extends React.Component {
     errors: []
   };
 
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -148,7 +152,7 @@ class BottleForm extends React.Component {
           <div className="col-xs-6 col-xs-offset-2">
             <div className="row">
               <input type="submit" className="btn btn-primary-outline col-xs-2 m-x-1" value="Save" onClick={::this.submit} disabled={errors.length > 0} />
-              <Link to="/bottles" className="btn btn-secondary-outline col-xs-2">Back</Link>
+              <a onClick={goBack(this.context.router)} className="btn btn-secondary-outline col-xs-2">Back</a>
             </div>
           </div>
         </div>
@@ -158,3 +162,13 @@ class BottleForm extends React.Component {
 }
 
 export default BottleForm;
+
+/**
+ * Private helpers
+ */
+function goBack(router) {
+  return (event) => {
+    event.preventDefault();
+    router.goBack();
+  };
+}

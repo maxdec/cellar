@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import Gql from 'react-gql';
-import { browserHistory } from 'react-router';
 import { bottleDisplayFields, bottleFragment, read } from '../fields';
 
 const fragmentConfig = {
@@ -12,17 +11,14 @@ class BottleRow extends React.Component {
     bottle: PropTypes.object.isRequired
   };
 
-  goToBottle(bottleId) {
-    return (event) => {
-      event.preventDefault();
-      browserHistory.push(`/bottles/${bottleId}`);
-    };
-  }
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  };
 
   render() {
     const { bottle } = this.props;
     return (
-      <tr onClick={::this.goToBottle(bottle.id)} className="is-clickable">
+      <tr onClick={goToBottle(bottle.id, this.context.router)} className="is-clickable">
         {bottleDisplayFields.map(field => <td key={field}>{read(bottle, field)}</td>)}
       </tr>
     );
@@ -31,3 +27,13 @@ class BottleRow extends React.Component {
 }
 
 export default Gql.Fragment(fragmentConfig)(BottleRow);
+
+/**
+ * Private helpers
+ */
+function goToBottle(bottleId, router) {
+  return (event) => {
+    event.preventDefault();
+    router.push(`/bottles/${bottleId}`);
+  };
+}

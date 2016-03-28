@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import Gql from 'react-gql';
-import { browserHistory } from 'react-router';
 import { wineDisplayFields, wineFragment } from '../fields';
 
 const fragmentConfig = {
@@ -12,17 +11,15 @@ class WineRow extends React.Component {
     wine: PropTypes.object.isRequired
   };
 
-  goToWine(wineId) {
-    return (event) => {
-      event.preventDefault();
-      browserHistory.push(`/wines/${wineId}`);
-    };
-  }
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  };
+
 
   render() {
     const { wine } = this.props;
     return (
-      <tr onClick={::this.goToWine(wine.id)} className="is-clickable">
+      <tr onClick={goToWine(wine.id, this.context.router)} className="is-clickable">
         {wineDisplayFields.map(field => <td key={field}>{wine[field]}</td>)}
       </tr>
     );
@@ -31,3 +28,13 @@ class WineRow extends React.Component {
 }
 
 export default Gql.Fragment(fragmentConfig)(WineRow);
+
+/**
+ * Private helpers
+ */
+function goToWine(wineId, router) {
+  return (event) => {
+    event.preventDefault();
+    router.push(`/wines/${wineId}`);
+  };
+}

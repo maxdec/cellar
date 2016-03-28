@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Gql from 'react-gql';
-import { browserHistory } from 'react-router';
 import { BottleForm } from '../components';
 import { bottleFragment } from '../fields';
 
@@ -44,6 +43,10 @@ const config = {
 };
 
 class BottleEdit extends Component {
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  };
+
   componentDidMount() {
     const { id } = this.props.params;
     this.props.mutations.loadBottle({ id: id });
@@ -51,7 +54,7 @@ class BottleEdit extends Component {
 
   submit(changset) {
     this.props.mutations.update(changset);
-    browserHistory.push('/bottles');
+    this.context.router.push('/bottles');
   }
 
   render() {

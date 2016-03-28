@@ -1,5 +1,4 @@
 import React from 'react';
-import { browserHistory } from 'react-router';
 
 export default class EmptyBox extends React.Component {
   static propTypes = {
@@ -7,9 +6,13 @@ export default class EmptyBox extends React.Component {
     col: React.PropTypes.number,
   };
 
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  };
+
   goToNewBottle(event) {
     event.preventDefault();
-    browserHistory.push(`/bottles/new?row=${this.props.row}&col=${this.props.col}`);
+    this.context.router.push(`/bottles/new?row=${this.props.row}&col=${this.props.col}`);
   }
 
   render() {
