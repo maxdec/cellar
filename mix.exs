@@ -36,8 +36,8 @@ defmodule Cellar.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:mariaex, ">= 0.0.0"},
      {:cowboy, "~> 1.0"},
-     {:absinthe_plug, github: "absinthe-graphql/absinthe_plug", branch: "master"},
-     {:absinthe, github: "maxdec/absinthe", branch: "master", override: true},
+     {:absinthe, "~> 1.1.11"},
+     {:absinthe_plug, "~> 1.1.3"},
      {:poison, "~> 1.3"}]
   end
 

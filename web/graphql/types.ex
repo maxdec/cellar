@@ -1,5 +1,5 @@
 defmodule Cellar.GraphQL.Types do
-  use Absinthe.Schema
+  use Absinthe.Schema.Notation
 
   @desc "A Wine"
   object :wine do

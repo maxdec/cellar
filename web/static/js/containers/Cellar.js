@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Gql from 'react-gql';
+import Modal from 'react-modal';
 import { BottleBox, EmptyBox } from '../components';
 
 const config = {
@@ -19,6 +20,40 @@ const config = {
 };
 
 class Cellar extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = { modalIsOpen: false };
+  }
+
+  openModal(bottleId) {
+    this.setState({
+      modalIsOpen: true,
+      bottleId: bottleId
+    });
+  }
+
+  closeModal() {
+    this.setState({
+      modalIsOpen: false,
+      bottleId: null
+    });
+  }
+
+  handleModalCloseRequest() {
+    this.closeModal();
+  }
+
+  handleMoveRequest(event) {
+    event.preventDefault();
+    console.log('Save button was clicked', event);
+  }
+
+  handleMoveClicked(bottleId) {
+    console.log('CLICKED', bottleId);
+    this.openModal(bottleId);
+  }
+
   renderRows(rows) {
     return rows.map((row, r) => {
       return (
@@ -35,7 +70,7 @@ class Cellar extends Component {
   }
 
   renderBox(bottle, row, col) {
-    return (bottle && bottle.id) ? <BottleBox bottle={bottle} key={col} /> : <EmptyBox key={col} row={row} col={col} />;
+    return (bottle && bottle.id) ? <BottleBox bottle={bottle} key={col} onMove={::this.handleMoveClicked}/> : <EmptyBox key={col} row={row} col={col} />;
   }
 
   renderHeader(rows) {
@@ -43,6 +78,39 @@ class Cellar extends Component {
       <div className="card-group">
         {rows[0].map((_, index) => (<div className="card cellar-header is-full-centered" key={index}>{index}</div>))}
       </div>
+    );
+  }
+
+  renderMoveModal() {
+    return (
+      <Modal
+          className="Modal__Bootstrap modal"
+          isOpen={this.state.modalIsOpen}
+          onRequestClose={::this.handleModalCloseRequest}
+        >
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <form onSubmit={::this.handleMoveRequest}>
+              <div className="modal-header">
+                <button type="button" className="close" onClick={::this.handleModalCloseRequest}>
+                  <span aria-hidden="true">&times;</span>
+                  <span className="sr-only">Close</span>
+                </button>
+                <h4 className="modal-title">Modal title</h4>
+              </div>
+              <div className="modal-body">
+
+                  <input type="text" name="col" />
+                  <input type="text" name="row" />
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-default" onClick={::this.handleModalCloseRequest}>Close</button>
+                <button type="submit" className="btn btn-primary" onClick={::this.handleMoveRequest}>Save changes</button>
+              </div>
+              </form>
+            </div>
+          </div>
+        </Modal>
     );
   }
 
@@ -54,6 +122,7 @@ class Cellar extends Component {
       <div>
         {::this.renderHeader(rows)}
         {::this.renderRows(rows)}
+        {::this.renderMoveModal()}
       </div>
     );
   }

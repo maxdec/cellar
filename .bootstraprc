@@ -69,8 +69,6 @@ styles:
   card: true
   breadcrumb: true
   pagination: true
-  pager: true
-  labels: true
   jumbotron: true
   alert: true
   progress: true
@@ -78,17 +76,16 @@ styles:
   list-group: true
   responsive-embed: true
   close: true
+  tags: true
 
   # Components w/ JavaScript
-  modal: false
+  modal: true
   tooltip: false
   popover: false
   carousel: false
 
   # Utility classes
   utilities: true
-  utilities-spacing: true
-  utilities-responsive: true
 
 ### Bootstrap scripts
 scripts: false

@@ -26,12 +26,19 @@ const fragmentConfig = {
 
 class BottleBox extends React.Component {
   static propTypes = {
-    bottle: PropTypes.object.isRequired
+    bottle: PropTypes.object.isRequired,
+    onMove: PropTypes.func,
   };
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   };
+
+  handleMove(event) {
+    event.preventDefault();
+    console.log('MOVE');
+    this.props.onMove(this.props.bottle.id);
+  }
 
   render() {
     const { bottle, mutations } = this.props;
@@ -54,22 +61,22 @@ class BottleBox extends React.Component {
               <i className="fa fa-clock-o" /> {bottle.wine.readyToDrink}
             </div>
           </div>
-          <p>
+          <div>
             <div className="btn-group">
               <button className="btn btn-primary-outline btn-sm" onClick={handleDrink(bottle.id, mutations.drinkBottle)}>
                 <i className="fa fa-glass" /> Drink
               </button>&nbsp;
-              <button className="btn btn-primary-outline btn-sm" onClick={handleMove}>
+              <button className="btn btn-primary-outline btn-sm" onClick={::this.handleMove}>
                 <i className="fa fa-arrows" /> Move
               </button>
               <button className="btn btn-primary-outline btn-sm" onClick={goToBottle(bottle.id, this.context.router)}>
                 <i className="fa fa-pencil-square-o" /> Edit
               </button>
             </div>
-          </p>
-          <p>
+          </div>
+          <div>
             {renderNotes(bottle)}
-          </p>
+          </div>
         </div>
       </div>
     );
@@ -96,10 +103,7 @@ function goToBottle(bottleId, router) {
   };
 }
 
-function handleMove(event) {
-  event.preventDefault();
-  console.log('MOVE');
-}
+
 
 function renderNotes(bottle) {
   if (!bottle.notes && !bottle.wine.notes) return;

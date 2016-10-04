@@ -10,10 +10,10 @@ const Header = () => (
         <NavItem to="/wines">Wines</NavItem>
       </ul>
 
-      <div className="input-group input-group-sm pull-xs-right">
-        <span className="input-group-addon"><i className="fa fa-search" /></span>
+      <form className="form-inline pull-xs-right">
+        <i className="fa fa-search" />
         <input className="form-control" type="text" placeholder="Search" />
-      </div>
+      </form>
     </nav>
   </header>
 );

@@ -5,6 +5,7 @@ export ColorLabel from './ColorLabel';
 export EmptyBox from './EmptyBox';
 export Footer from './Footer';
 export Header from './Header';
+export Modal from './Modal';
 export NavItem from './NavItem';
 export ProgressBar from './ProgressBar';
 export TableHead from './TableHead';
