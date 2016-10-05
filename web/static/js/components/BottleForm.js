@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import classNames from 'classnames';
 import { WineSelect } from '../containers';
-import { validateBottle } from '../utils';
+import { validateBottle, today } from '../utils';
 
 class BottleForm extends React.Component {
   static propTypes = {
@@ -28,6 +28,7 @@ class BottleForm extends React.Component {
       edits: {},
       validation: {},
     };
+    this.state.edits.acquisition = today();
     if (props.col) this.state.edits.col = props.col;
     if (props.row) this.state.edits.row = props.row;
   }
@@ -37,6 +38,9 @@ class BottleForm extends React.Component {
       edits: props.bottle || {},
       validation: {}
     };
+    if (!state.edits.acquisition) {
+      state.edits.acquisition = today();
+    }
     if (props.col) state.edits.col = props.col;
     if (props.row) state.edits.row = props.row;
     this.setState(state);
@@ -136,8 +140,8 @@ class BottleForm extends React.Component {
       <form onSubmit={::this.submit}>
 
         {::this.renderWineInput()}
-        {::this.renderInput('date', 'acquisition', '2016-01-13')}
-        {::this.renderInput('date', 'degustation', '2016-02-25')}
+        {::this.renderInput('date', 'acquisition', today())}
+        {::this.renderInput('date', 'degustation', today())}
         {::this.renderInput('number', 'row', '1')}
         {::this.renderInput('number', 'col', '1')}
 
