@@ -82,12 +82,12 @@ class BottleForm extends React.Component {
       'form-group': true,
       row: true,
       'has-danger': !!error,
-      'has-success': value && !error
+      'has-success': (value || value === 0) && !error
     });
     const inputClass = classNames({
       'form-control': true,
       'form-control-danger': !!error,
-      'form-control-success': value && !error
+      'form-control-success': (value || value === 0) && !error
     });
 
     return (
