@@ -3,7 +3,6 @@ import classNames from 'classnames';
 
 function yearsRange(date) {
   let [min, max] = date.split('-').map(year => parseInt(year, 10));
-  if (!max) max = min + 2;
   let mid = min;
   if (max) mid = min + (max - min) / 2;
 

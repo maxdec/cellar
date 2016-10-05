@@ -11,7 +11,6 @@ const Header = () => (
       </ul>
 
       <form className="form-inline pull-xs-right">
-        <i className="fa fa-search" />
         <input className="form-control" type="text" placeholder="Search" />
       </form>
     </nav>

@@ -86,6 +86,10 @@ class WineSelect extends Component {
   }
 
   handleClearSelection() {
+    this.setState({
+      ...this.state,
+      input: null
+    });
     if (this.props.onReset) this.props.onReset();
   }
 

@@ -54,7 +54,7 @@ class WineEdit extends Component {
 
   submit(changeset) {
     this.props.mutations.edit(changeset);
-    this.context.router.push('/wines');
+    this.context.router.goBack();
   }
 
   render() {

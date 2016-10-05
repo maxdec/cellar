@@ -37,7 +37,7 @@ class BottleNew extends Component {
 
   submit(changset) {
     this.props.mutations.create(changset);
-    this.context.router.push('/bottles');
+    this.context.router.goBack();
   }
 
   render() {

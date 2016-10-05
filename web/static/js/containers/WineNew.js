@@ -36,7 +36,7 @@ class WineNew extends Component {
 
   submit(changeset) {
     this.props.mutations.create(changeset);
-    this.context.router.push('/wines');
+    this.context.router.goBack();
   }
 
   render() {

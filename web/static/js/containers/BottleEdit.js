@@ -54,7 +54,7 @@ class BottleEdit extends Component {
 
   submit(changset) {
     this.props.mutations.update(changset);
-    this.context.router.push('/bottles');
+    this.context.router.goBack();
   }
 
   render() {

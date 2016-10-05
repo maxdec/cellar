@@ -4,7 +4,7 @@ import classNames from 'classnames';
 export default ({className, color}) => {
   const colorClass = classNames({
     [className]: true,
-    label: true,
+    tag: true,
     'color-label': true,
     // 'pull-xs-right': true,
     'is-red-wine': color === 'red',
