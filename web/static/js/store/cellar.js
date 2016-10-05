@@ -5,7 +5,11 @@ import bottles from './bottles';
 export default {
   name: 'cellar',
   defaultState: {
-    rows: [],
+    cellar: {
+      rows: 0,
+      cols: 0,
+      bottles: []
+    },
     wines: [],
     searchedWines: [],
     selectedWineIndex: null,
@@ -16,12 +20,12 @@ export default {
   mutations: {
     ...wines,
     ...bottles,
-    getRows: function *() {
+    getCellar: function *() {
       yield type => {
-        return ({rows}) => ({type, rows});
+        return ({cellar}) => ({type, cellar});
       };
-      yield (state, {rows}) => {
-        return {...state, rows: rows };
+      yield (state, {cellar}) => {
+        return {...state, cellar: cellar};
       };
     },
     // Removes from Cellar only
@@ -30,7 +34,8 @@ export default {
         return ({bottle}) => ({type, bottle});
       };
       yield (state, {bottle}) => {
-        return update(state, { rows: { [bottle.row]: { $splice: [[bottle.col, 1, null]] }}});
+        const i = state.cellar.bottles.findIndex((b) => (b.id == bottle.id));
+        return update(state, { cellar: { bottles: { $splice: [[i, 1]] }}});
       };
     },
     // moveBottle: function *() {

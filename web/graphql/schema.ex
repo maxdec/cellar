@@ -20,6 +20,11 @@ defmodule Cellar.GraphQL.Schema do
       resolve &get_rows/2
     end
 
+    @desc "Retrieve the Cellar"
+    field :cellar, type: :cellar do
+      resolve &get_cellar/2
+    end
+
     @desc "Retrieve one Wine from its ID"
     field :wine, type: :wine do
       arg :id, non_null(:id)
@@ -113,6 +118,17 @@ defmodule Cellar.GraphQL.Schema do
     |> assemble_rows
 
     {:ok, bottles}
+  end
+
+  defp get_cellar(_args, ast) do
+    subfield = find_subfield(ast, "bottles")
+    bottles = Bottle
+    |> where([b], is_nil(b.degustation))
+    |> Repo.all
+    |> smart_preload(subfield, :wine)
+    |> Enum.sort_by(fn bottle -> 10 * bottle.row + bottle.col end)
+
+    {:ok, %{bottles: bottles, rows: @defaults_cellar.rows, cols: @defaults_cellar.cols}}
   end
 
   defp assemble_rows(bottles) do
@@ -264,10 +280,17 @@ defmodule Cellar.GraphQL.Schema do
     Enum.any?(selections, &(is?(&1, field)))
   end
 
-  defp smart_preload(query, ast, field) do
-    case ast.ast_node |> get_selections |> has?(to_string(field)) do
+  defp find_subfield(ast, field) do
+    ast.ast_node.selection_set.selections |> Enum.find(fn %{name: name} -> name == field end)
+  end
+
+  defp smart_preload(query, %Absinthe.Language.Field{} = ast_field, field) do
+    case ast_field |> get_selections |> has?(to_string(field)) do
       true -> Repo.preload(query, field)
       _ -> query
     end
+  end
+  defp smart_preload(query, ast, field) do
+    smart_preload(query, ast.ast_node, field)
   end
 end

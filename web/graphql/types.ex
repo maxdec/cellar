@@ -1,6 +1,13 @@
 defmodule Cellar.GraphQL.Types do
   use Absinthe.Schema.Notation
 
+  @desc "A Cellar"
+  object :cellar do
+    field :rows,    non_null(:integer)
+    field :cols,    non_null(:integer)
+    field :bottles, list_of(:bottle)
+  end
+
   @desc "A Wine"
   object :wine do
     field :id,              non_null(:id)

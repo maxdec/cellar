@@ -5,17 +5,21 @@ import { BottleBox, EmptyBox } from '../components';
 
 const config = {
   getState: state => ({
-    rows: state.cellar.rows
+    cellar: state.cellar.cellar
   }),
   init: {
     query: `
       query cellarQuery {
-        rows {
-          ${BottleBox.getFragment()}
+        cellar {
+          rows
+          cols
+          bottles {
+            ${BottleBox.getFragment()}
+          }
         }
       }
     `,
-    action: actions => actions.cellar.getRows
+    action: actions => actions.cellar.getCellar
   }
 };
 
@@ -70,13 +74,13 @@ class Cellar extends Component {
   }
 
   renderBox(bottle, row, col) {
-    return (bottle && bottle.id) ? <BottleBox bottle={bottle} key={col} onMove={::this.handleMoveClicked}/> : <EmptyBox key={col} row={row} col={col} />;
+    return bottle ? <BottleBox bottle={bottle} key={col} onMove={::this.handleMoveClicked}/> : <EmptyBox key={col} row={row} col={col} />;
   }
 
-  renderHeader(rows) {
+  renderHeader(cols) {
     return (
       <div className="card-group">
-        {rows[0].map((_, index) => (<div className="card cellar-header is-full-centered" key={index}>{index}</div>))}
+        {Array(cols).fill(null).map((_, i) => (<div className="card cellar-header is-full-centered" key={i}>{i}</div>))}
       </div>
     );
   }
@@ -115,13 +119,13 @@ class Cellar extends Component {
   }
 
   render() {
-    const { rows } = this.props;
-    if (rows.length === 0) return(<div />);
+    const { cellar } = this.props;
+    if (cellar.bottles.length === 0) return(<div />);
 
     return (
       <div>
-        {::this.renderHeader(rows)}
-        {::this.renderRows(rows)}
+        {::this.renderHeader(cellar.cols)}
+        {::this.renderRows(arrayToMatrix(cellar))}
         {::this.renderMoveModal()}
       </div>
     );
@@ -129,3 +133,15 @@ class Cellar extends Component {
 }
 
 export default Gql.Root(config)(Cellar);
+
+function arrayToMatrix(cellar) {
+  const matrix = Array(cellar.rows)
+    .fill(null)
+    .map(() => (Array(cellar.cols).fill(null)));
+
+  cellar.bottles.forEach((bottle) => {
+    matrix[bottle.row][bottle.col] = bottle;
+  });
+
+  return matrix;
+}
