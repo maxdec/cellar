@@ -30,9 +30,9 @@ defmodule Cellar.Mixfile do
   #
   # Type `mix help deps` for examples and options.
   defp deps do
-    [{:phoenix, "~> 1.1"},
-     {:phoenix_ecto, "~> 2.0"},
-     {:phoenix_html, "~> 2.3"},
+    [{:phoenix, "~> 1.2"},
+     {:phoenix_ecto, "~> 3.0"},
+     {:phoenix_html, "~> 2.7"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:mariaex, ">= 0.0.0"},
      {:cowboy, "~> 1.0"},
