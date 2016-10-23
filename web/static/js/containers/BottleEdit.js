@@ -22,10 +22,10 @@ const config = {
     },
     update: {
       query: `
-        mutation updateBottle($id: ID!, $wine: ID, $acquisition: Date, $degustation: Date, $row: Int, $col: Int, $notes: String){
+        mutation updateBottle($id: ID!, $wineId: ID, $acquisition: Date, $degustation: Date, $row: Int, $col: Int, $notes: String){
           bottle: updateBottle(
             id: $id,
-            wineId: $wine,
+            wineId: $wineId,
             acquisition: $acquisition,
             degustation: $degustation,
             row: $row,
